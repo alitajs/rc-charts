@@ -5,12 +5,6 @@
 .@{prefix-cls} {
   position: relative;
 
-  &.show-legend {
-    &__chart {
-      width: ~'calc(100% - 240px)';
-    }
-  }
-
   &__chart {
     position: relative;
   }
@@ -49,46 +43,5 @@
       line-height: 32px;
       white-space: nowrap;
     }
-  }
-
-  &__legend {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    min-width: 200px;
-    margin: 0 20px;
-    padding: 0;
-    list-style: none;
-    transform: translateY(-50%);
-
-    li {
-      display: inline-block;
-      height: 22px;
-      margin-bottom: 16px;
-      line-height: 22px;
-      cursor: pointer;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  &__dot {
-    position: relative;
-    top: -1px;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-right: 8px;
-    border-radius: 8px;
-  }
-
-  &__legend-title {
-    color: @text-color;
-  }
-
-  &__percent {
-    color: @text-color-secondary;
   }
 }
