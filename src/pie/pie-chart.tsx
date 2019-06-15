@@ -7,7 +7,7 @@ import './pie-chart.less';
 
 const prefixCls = 'rc-pie-chart';
 
-interface IDataItem {
+export interface IDataItem {
   x: string;
   y: number;
 }
@@ -24,7 +24,7 @@ export type TPadding =
   | [number, number, number, number]
   | [string, string];
 
-export interface IProps {
+export interface IPieProps {
   className?: string;
   style?: React.CSSProperties;
   // 图表动画开关，默认为 true
@@ -36,7 +36,7 @@ export interface IProps {
   height?: number;
   // 图表内边距
   padding?: TPadding;
-  data?: IDataItem[];
+  data: IDataItem[];
   total?: React.ReactNode | number | (() => React.ReactNode | number);
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
@@ -63,7 +63,7 @@ const scale = {
   },
 };
 
-const PieChart: React.FC<IProps> = (props) => {
+const PieChart: React.FC<IPieProps> = (props) => {
   const {
     className,
     style,
@@ -81,7 +81,6 @@ const PieChart: React.FC<IProps> = (props) => {
     lineWidth,
     onGetG2Instance
   } = props;
-  const rootRef = React.useRef(null);
 
   const handleGetG2Instance = (chart: G2.Chart) => {
     onGetG2Instance && onGetG2Instance(chart);
@@ -136,7 +135,6 @@ const PieChart: React.FC<IProps> = (props) => {
 
   return (
     <div
-      ref={rootRef}
       className={classNames(className, {
         [`${prefixCls}`]: true
       })}

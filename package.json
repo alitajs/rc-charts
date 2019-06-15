@@ -1,6 +1,6 @@
 {
   "name": "rc-charts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "图表组件",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

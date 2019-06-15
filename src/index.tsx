@@ -1,5 +1,1 @@
-import Pie from './pie';
-
-export default {
-  Pie
-};
+export { default as Pie } from './pie';
