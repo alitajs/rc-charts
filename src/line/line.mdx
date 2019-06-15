@@ -1,0 +1,26 @@
+---
+route: /line
+name: 'LineChart'
+---
+import { Playground, Props } from 'docz';
+import LineChart from './line-chart';
+
+# LineChart
+
+## 基本使用
+
+<Playground>
+  <LineChart
+    data={
+      [
+        { x: 'chrome', y1: 20, y2: 30 },
+        { x: 'IE', y1: 10, y2: 20 },
+        { x: 'Firefox', y1: 20, y2: 40 }
+      ]
+    }
+    titleMap={{
+      y1: '下载数',
+      y2: '好评数'
+    }}
+  />
+</Playground>
