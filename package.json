@@ -1,0 +1,57 @@
+{
+  "name": "rc-charts",
+  "version": "0.0.1",
+  "description": "图表组件",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "react-component",
+    "component",
+    "chart"
+  ],
+  "scripts": {
+    "bootstrap": "yarn || npm i",
+    "prepare": "yarn build",
+    "build": "father build",
+    "doc:dev": "father doc dev",
+    "doc:build": "cross-env DOCZ_BASE=/rc-charts/ father doc build",
+    "gh-pages": "yarn doc:build && gh-pages -d .doc"
+  },
+  "repository": "git@github.com:ts-react/rc-send-code.git",
+  "author": "wangxingkang <wangxingkang@sensoro.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
+  },
+  "dependencies": {
+    "@antv/data-set": "^0.10.2",
+    "antd": "^3.19.3",
+    "awe-utils": "^0.0.7",
+    "bizcharts": "^3.5.4",
+    "classnames": "^2.2.6",
+    "rc-fit-text": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.8",
+    "@types/react": "^16.8.3",
+    "babel-plugin-import": "^1.12.0",
+    "cross-env": "^5.2.0",
+    "father": "^2.7.2",
+    "gh-pages": "^2.0.1",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.6",
+    "typescript": "^3.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  }
+}
