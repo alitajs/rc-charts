@@ -2,7 +2,16 @@ import React from 'react';
 import classNames from 'classnames';
 import { isArray } from 'awe-utils';
 import { DataView } from '@antv/data-set';
-import {Chart, Tooltip, Geom, Legend, Axis, Coord, AxisProps} from 'bizcharts';
+import {
+  Chart,
+  Tooltip,
+  Geom,
+  Legend,
+  Axis,
+  Coord,
+  Label,
+  AxisProps
+} from 'bizcharts';
 import { TPadding} from '../pie';
 
 const prefixCls = 'rc-bar-chart';
@@ -26,6 +35,9 @@ export interface IBarProps {
   titleMap?: {
     [key: string]: any;
   };
+  // 是否显示Label
+  //
+  showLabel?: boolean;
   // 是否显示x轴
   showXAxis?: boolean;
   // 是否显示y轴
@@ -70,6 +82,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
     yAxis,
     showXAxis,
     showYAxis,
+    showLabel,
     showLegend,
     padding,
     direction,
@@ -143,7 +156,11 @@ const BarChart: React.FC<IBarProps> = (props) => {
           type={type}
           position="x*value"
           size={borderWidth} color="key"
-        />
+        >
+          {(showLabel && type === 'interval') && (
+            <Label content={['key*value', (name, value) => value]} />
+          )}
+        </Geom>
       </Chart>
     </div>
   )
@@ -157,7 +174,8 @@ BarChart.defaultProps = {
   padding: [60, 20, 40, 40],
   titleMap: {},
   showXAxis: true,
-  showYAxis: true
+  showYAxis: true,
+  showLabel: false
 };
 
 export default BarChart;
