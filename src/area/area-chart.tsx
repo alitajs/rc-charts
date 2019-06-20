@@ -59,18 +59,6 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     },
   };
 
-  const test = [
-    {x: '2019-06-20', y: 7},
-    {x: '2019-06-21', y: 5},
-    {x: '2019-06-22', y: 4},
-    {x: '2019-06-23', y: 2},
-    {x: '2019-06-24', y: 4},
-    {x: '2019-06-25', y: 7},
-    {x: '2019-06-26', y: 5},
-    {x: '2019-06-27', y: 6},
-    {x: '2019-06-28', y: 5}
-  ];
-
   const tooltip: [string, (...args: any[]) => { name?: string; value: string }] = [
     'x*y',
     (x: string, y: string) => ({
