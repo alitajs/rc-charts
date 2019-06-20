@@ -28,7 +28,6 @@ export interface IBarProps {
   padding?: TPadding;
   height?: number;
   data: IDataItem[];
-  color?: string;
   // 层叠 或 分组柱状图 颜色
   colors?: string[];
   title?: string | React.ReactNode;
@@ -76,6 +75,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
     height,
     xAxis,
     yAxis,
+    colors,
     showLabel,
     showLegend,
     padding,
@@ -119,6 +119,8 @@ const BarChart: React.FC<IBarProps> = (props) => {
     }
   }, [props.data]);
 
+  const defaultColors = colors;
+
   return (
     <div
       className={classNames(className, {
@@ -145,7 +147,10 @@ const BarChart: React.FC<IBarProps> = (props) => {
         <Geom
           type={type}
           position="x*value"
-          size={borderWidth} color="key"
+          color={
+            ['x', defaultColors]
+          }
+          size={borderWidth}
         >
           {(showLabel && type === 'interval') && (
             <Label content={['key*value', (name, value) => value]} />
