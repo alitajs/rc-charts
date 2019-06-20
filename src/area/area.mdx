@@ -66,7 +66,7 @@ import AreaChart from './area-chart';
   />
 </Playground>
 
-## 自定义
+## 自定义1
 
 <Playground>
   <AreaChart
@@ -92,6 +92,30 @@ import AreaChart from './area-chart';
     }}
     smooth={true}
     colors={['#8DDDCC', '#E3E3E3']}
+  />
+</Playground>
+
+## 自定义2
+
+<Playground>
+  <AreaChart
+    data={
+      [
+        { x: '0', y1: 20 },
+        { x: '4', y1: 10 },
+        { x: '8', y1: 50 },
+        { x: '12', y1: 60 },
+        { x: '16', y1: 10 },
+        { x: '20', y1: 100 },
+        { x: '24', y1: 10 }
+      ]
+    }
+    legend={{
+      visible: false
+    }}
+    line={true}
+    point={true}
+    colors={['#FDE6E6']}
   />
 </Playground>
 

@@ -19,6 +19,7 @@ export interface IAreaProps {
   // 是否显示线
   // 默认显示
   line?: boolean;
+  point?: boolean;
   // 图表动画开关，默认为 true，即开启动画。
   animate?: boolean;
   xAxis?: AxisProps;
@@ -55,6 +56,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     legend,
     colors,
     line,
+    point,
     titleMap,
     smooth,
     padding,
@@ -96,6 +98,12 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     }
   }, [props.data]);
 
+  const cols = Object.assign(scale, {
+    x: {
+
+    }
+  });
+
   return (
     <div
       className={classNames(className, {
@@ -106,7 +114,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       <Chart
         height={height}
         data={chartData}
-        scale={scale}
+        scale={cols}
         padding={padding}
         animate={animate}
         forceFit={forceFit}
@@ -138,6 +146,22 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
               (colors && colors.length) ? ['key', colors] : 'key'
             }
             shape={smooth ? 'smooth' : ''}
+          />
+        )}
+
+        {point && (
+          <Geom
+            type="point"
+            position="x*value"
+            size={4}
+            shape="circle"
+            color={
+              (colors && colors.length) ? ['key', colors] : 'key'
+            }
+            style={{
+              stroke: "#fff",
+              lineWidth: 1
+            }}
           />
         )}
       </Chart>
