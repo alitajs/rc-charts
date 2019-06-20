@@ -62,7 +62,7 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
       dv.source(data)
         .transform({
           type: 'map',
-          callback(row: { y1: string; y2: string }) {
+          callback(row) {
             const newRow = { ...row };
             newKeys.forEach(item => {
               newRow[titleMap[item]] = row[item];
@@ -76,6 +76,8 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
           key: 'key',
           value: 'value'
         });
+
+      console.log(dv);
 
       setChartData(dv);
     }
@@ -110,7 +112,7 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
 
         <Tooltip />
         {/* 图例 */}
-        <Legend name="key" position="top" {...legend} />
+        <Legend position="top" {...legend} />
 
         <Geom
           type="line"

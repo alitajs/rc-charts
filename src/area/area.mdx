@@ -47,3 +47,51 @@ import AreaChart from './area-chart';
     smooth={true}
   />
 </Playground>
+
+## 堆叠线图
+
+<Playground>
+  <AreaChart
+    data={
+      [
+        { x: '1750', y1: 20, y2: 10 },
+        { x: '1800', y1: 10, y2: 5 },
+        { x: '1850', y1: 50, y2: 25 },
+        { x: '1900', y1: 60, y2: 30 },
+        { x: '1999', y1: 10, y2: 5 },
+        { x: '2050', y1: 100, y2: 50 }
+      ]
+    }
+    isStack={true}
+  />
+</Playground>
+
+## 自定义
+
+<Playground>
+  <AreaChart
+    data={
+      [
+        { x: '0', y1: 20, y2: 10 },
+        { x: '4', y1: 10, y2: 5 },
+        { x: '8', y1: 50, y2: 25 },
+        { x: '12', y1: 60, y2: 80 },
+        { x: '16', y1: 10 },
+        { x: '20', y1: 100 },
+        { x: '24', y1: 10 }
+      ]
+    }
+    xAxis={{
+      line: null
+    }}
+    yAxis={{
+      visible: false
+    }}
+    legend={{
+      visible: false
+    }}
+    smooth={true}
+    colors={['#8DDDCC', '#E3E3E3']}
+  />
+</Playground>
+

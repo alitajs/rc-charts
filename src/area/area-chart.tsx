@@ -1,15 +1,21 @@
 import React from 'react';
+import { isArray } from 'awe-utils';
 import classNames from 'classnames';
-import { Axis, Chart, Geom, Tooltip, AxisProps } from 'bizcharts';
+import { DataView } from '@antv/data-set';
+import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
 import { TPadding} from '../pie';
+
+export interface IDataItem {
+  x: any;
+  [key: string]: number;
+}
 
 export interface IAreaProps {
   className?: string;
   style?: React.CSSProperties;
-  color?: string;
+  colors?: string[];
   height?: number;
   padding?: TPadding;
-  borderColor?: string;
   // 是否显示线
   // 默认显示
   line?: boolean;
@@ -19,12 +25,15 @@ export interface IAreaProps {
   // 是否开启自适应
   forceFit?: boolean;
   scale?: any;
+  isStack: boolean;
+  // 图例配置
+  legend?: LegendProps;
   yAxis?: Partial<AxisProps>;
   borderWidth?: number;
-  data: {
-    x: number | string;
-    y: number;
-  }[];
+  data: IDataItem[];
+  titleMap?: {
+    [key: string]: any;
+  };
   // 是否平滑
   // 默认为false
   smooth: boolean;
@@ -35,29 +44,57 @@ const prefixCls = 'rc-area-chart';
 const AreaChart: React.FC<IAreaProps> = (props) => {
   const {
     className,
+    isStack,
     style,
     animate,
     forceFit,
     height,
     scale,
-    data,
     xAxis,
     yAxis,
-    color,
+    legend,
+    colors,
     line,
+    titleMap,
     smooth,
     padding,
-    borderColor,
-    borderWidth
+    borderWidth,
+    data: sourceData
   } = props;
+  const [chartData, setChartData] = React.useState(null);
 
-  const tooltip: [string, (...args: any[]) => { name?: string; value: string }] = [
-    'x*y',
-    (x: string, y: string) => ({
-      name: x,
-      value: y,
-    }),
-  ];
+  const data = isArray(sourceData) ? sourceData : [];
+
+  React.useEffect(() => {
+    if (isArray(data)) {
+      const item = data[0];
+
+      if (!item) return;
+
+      const newKeys = Object.keys(item).filter(item => item !== 'x');
+
+      const dv = new DataView();
+      dv.source(sourceData)
+        .transform({
+          type: 'map',
+          callback(row) {
+            const newRow = { ...row };
+            newKeys.forEach(item => {
+              newRow[titleMap[item] || item] = row[item];
+            });
+            return newRow;
+          },
+        })
+        .transform({
+          type: 'fold',
+          fields: newKeys.map(item => titleMap[item] || item),
+          key: 'key',
+          value: 'value'
+        });
+
+      setChartData(dv);
+    }
+  }, [props.data]);
 
   return (
     <div
@@ -67,45 +104,41 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       style={style}
     >
       <Chart
-        animate={animate}
-        scale={scale}
         height={height}
-        forceFit={forceFit}
-        data={data}
+        data={chartData}
+        scale={scale}
         padding={padding}
+        animate={animate}
+        forceFit={forceFit}
       >
-        <Axis
-          key="axis-x"
-          name="x"
-          {...xAxis}
-        />
-        <Axis
-          key="axis-y"
-          name="y"
-          {...yAxis}
-        />
-        <Tooltip showTitle={false} crosshairs={false} />
+        {/** x轴 */}
+        <Axis name="x" {...xAxis} />
+
+        {/** y轴 */}
+        <Axis name="value" {...yAxis} />
+
+        {/** 图例 */}
+        <Legend {...legend}/>
+
         <Geom
-          type="area"
-          position="x*y"
-          color={color}
-          tooltip={tooltip}
+          type={isStack ? 'areaStack' : 'area'}
+          position="x*value"
+          color={
+            (colors && colors.length) ? ['key', colors] : 'key'
+          }
           shape={smooth ? 'smooth' : ''}
-          style={{
-            fillOpacity: 1,
-          }}
         />
-        {line ? (
+
+        {line && (
           <Geom
-            type="line"
-            position="x*y"
-            shape={smooth ? 'smooth' : ''}
-            color={borderColor}
+            type={isStack ? 'areaStack' : 'area'}
+            position="x*value"
             size={borderWidth}
-            tooltip={false}
+            color={
+              (colors && colors.length) ? ['key', colors] : 'key'
+            }
+            shape={smooth ? 'smooth' : ''}
           />
-        ) : (
-          <span style={{ display: 'none' }} />
         )}
       </Chart>
     </div>
@@ -117,11 +150,11 @@ AreaChart.defaultProps = {
   line: true,
   animate: true,
   forceFit: true,
-  color: 'rgba(24, 144, 255, 0.2)',
-  borderColor: '#1089ff',
   borderWidth: 2,
-  scale: { x: {}, y: {} },
+  scale: { },
+  titleMap: {},
   data: [],
+  isStack: false,
   padding: 'auto'
 };
 
