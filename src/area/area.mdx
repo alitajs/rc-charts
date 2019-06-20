@@ -1,13 +1,13 @@
 ---
 route: /area
-name: 'Area(区域图)'
+name: 'Area'
 ---
 import { Playground, Props } from 'docz';
 import AreaChart from './area-chart';
 
-# LineChart
+# Area
 
-## 基本使用
+## 基础面积图
 
 <Playground>
   <AreaChart
@@ -24,5 +24,26 @@ import AreaChart from './area-chart';
        {x: '2019-06-28', y: 5}
       ]
     }
+  />
+</Playground>
+
+## 光滑面积图
+
+<Playground>
+  <AreaChart
+    data={
+      [
+       {x: '2019-06-20', y: 7},
+       {x: '2019-06-21', y: 5},
+       {x: '2019-06-22', y: 4},
+       {x: '2019-06-23', y: 2},
+       {x: '2019-06-24', y: 4},
+       {x: '2019-06-25', y: 7},
+       {x: '2019-06-26', y: 5},
+       {x: '2019-06-27', y: 6},
+       {x: '2019-06-28', y: 5}
+      ]
+    }
+    smooth={true}
   />
 </Playground>
