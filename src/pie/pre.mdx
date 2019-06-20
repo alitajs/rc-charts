@@ -24,6 +24,25 @@ import PieChart from './pie-chart';
   />
 </Playground>
 
+## 自定义颜色
+
+<Playground>
+  <PieChart
+    data={
+      [
+        { x: 'chrome', y: 20 },
+        { x: 'IE', y: 20 },
+        { x: 'Firefox', y: 20 }
+      ]
+    }
+    colors={['#6D5EAC', '#DFDFDF', '#F35A58']}
+    tooltip={true}
+    subTitle="总预警数"
+    total={100}
+  />
+</Playground>
+
+
 ## 百分比
 
 <Playground>
