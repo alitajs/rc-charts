@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { isArray } from 'awe-utils';
 import { DataView } from '@antv/data-set';
-import { Chart, Tooltip, Geom, Legend, Axis, Coord } from 'bizcharts';
+import {Chart, Tooltip, Geom, Legend, Axis, Coord, AxisProps} from 'bizcharts';
 import { TPadding} from '../pie';
 
 const prefixCls = 'rc-bar-chart';
@@ -15,14 +15,31 @@ export interface IDataItem {
 export interface IBarProps {
   className?: string;
   style?: React.CSSProperties;
+  // 图标内边距
   padding?: TPadding;
   height?: number;
   data: IDataItem[];
+  color?: string;
+  // 层叠 或 分组柱状图 颜色
+  colors?: string[];
   title?: string | React.ReactNode;
   titleMap?: {
     [key: string]: any;
   };
+  // 是否显示x轴
+  showXAxis?: boolean;
+  // 是否显示y轴
+  showYAxis?: boolean;
+  // 是否显示图例
+  showLegend?: boolean;
+  // x轴相关配置
+  xAxis?: AxisProps;
+  // y轴相关配置
+  yAxis?: Partial<AxisProps>;
+  // 柱状图类型
+  // interval: 柱状图; intervalStack: 堆叠柱状图;
   type?: 'intervalStack' | 'interval';
+  // 柱状图方向
   direction?: 'horizontal' | 'vertical'
   borderWidth?: number;
   legendPosition?: string;
@@ -49,6 +66,11 @@ const BarChart: React.FC<IBarProps> = (props) => {
     style,
     title,
     height,
+    xAxis,
+    yAxis,
+    showXAxis,
+    showYAxis,
+    showLegend,
     padding,
     direction,
     titleMap,
@@ -104,11 +126,19 @@ const BarChart: React.FC<IBarProps> = (props) => {
         data={chartData}
         forceFit
       >
-        <Axis name="x" />
-        <Axis name="value" />
+        {/* x轴 */}
+        {showXAxis && (
+          <Axis key="axis-x" name="x" {...xAxis} />
+        )}
+        {/* y轴 */}
+        {showYAxis && (
+          <Axis key="axis-y" name="value" { ...yAxis } />
+        )}
         <Coord transpose={direction === 'horizontal'} />
         <Tooltip />
-        <Legend name="key" position="top" />
+        {showLegend && (
+          <Legend name="key" position="top" />
+        )}
         <Geom
           type={type}
           position="x*value"
@@ -125,7 +155,9 @@ BarChart.defaultProps = {
   direction: 'vertical',
   borderWidth: 20,
   padding: [60, 20, 40, 40],
-  titleMap: {}
+  titleMap: {},
+  showXAxis: true,
+  showYAxis: true
 };
 
 export default BarChart;

@@ -68,3 +68,30 @@ import BarChart from './bar-chart';
     }}
   />
 </Playground>
+
+## 坐标轴自定义
+
+<Playground>
+  <BarChart
+    data={
+      [
+        { x: 'monday', series: 2800 },
+        { x: 'tuesday', series: 1800 },
+        { x: 'wednesday', series: 950 },
+        { x: 'thursday', series: 500 },
+        { x: 'friday', series: 170 }
+      ]
+    }
+    padding="auto"
+    showLegend={false}
+    xAxis={{
+      line: null,
+      tickLine: null,
+      grid: null
+    }}
+    direction="horizontal"
+    titleMap={{
+      series: 'Series'
+    }}
+  />
+</Playground>
