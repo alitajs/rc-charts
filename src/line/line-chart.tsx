@@ -27,6 +27,9 @@ export interface ILineChartProps {
   legend?: LegendProps;
   borderWidth?: number;
   legendPosition?: string;
+  // 是否平滑
+  // 默认为false
+  smooth: boolean;
 }
 
 const LineChart: React.FC<ILineChartProps> = (props) => {
@@ -39,6 +42,7 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
     titleMap,
     legend,
     colors,
+    smooth,
     borderWidth,
     data: sourceData,
   } = props;
@@ -103,7 +107,9 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
         <Axis key="axis-x" name="x" />
         {/* y轴 */}
         <Axis key="axis-y" name="value" />
+
         <Tooltip />
+        {/* 图例 */}
         <Legend name="key" position="top" {...legend} />
 
         <Geom
@@ -113,6 +119,18 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
           color={
             colors ? ['x', colors] : 'key'
           }
+          shape={smooth ? 'smooth' : ''}
+        />
+
+        <Geom
+          type="point"
+          position="x*value"
+          size={4}
+          shape={"circle"}
+          style={{
+            stroke: "#fff",
+            lineWidth: 1
+          }}
         />
       </Chart>
     </div>
@@ -123,7 +141,8 @@ LineChart.defaultProps = {
   height: 400,
   borderWidth: 2,
   padding: [60, 20, 40, 40],
-  titleMap: {}
+  titleMap: {},
+  smooth: false
 };
 
 export default LineChart;
