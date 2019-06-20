@@ -27,27 +27,23 @@ import LineChart from './line-chart';
   />
 </Playground>
 
-## 面积图
+## 多个折线
 
 <Playground>
   <LineChart
     data={
       [
-        { x: '1750', y1: 20 },
-        { x: '1800', y1: 10 },
-        { x: '1850', y1: 50 },
-        { x: '1900', y1: 60 },
-        { x: '1999', y1: 10 },
-        { x: '2050', y1: 100 }
+        { x: '1750', y1: 20, y2: 10 },
+        { x: '1800', y1: 10, y2: 5 },
+        { x: '1850', y1: 50, y2: 25 },
+        { x: '1900', y1: 60, y2: 30 },
+        { x: '1999', y1: 10, y2: 5 },
+        { x: '2050', y1: 100, y2: 50 }
       ]
     }
-    legend={{
-      visible: false
-    }}
-    isArea={true}
-    color={['#6D5EAC']}
     titleMap={{
-      y1: '下载数'
+      y1: '下载数',
+      y2: '点赞数'
     }}
   />
 </Playground>

@@ -19,8 +19,6 @@ export interface ILineChartProps {
   height?: number;
   colors?: string[];
   data: IDataItem[];
-  // 是否是面积图
-  isArea?: boolean;
   title?: string | React.ReactNode;
   titleMap?: {
     [key: string]: any;
@@ -30,20 +28,6 @@ export interface ILineChartProps {
   borderWidth?: number;
   legendPosition?: string;
 }
-
-const timeScale = {
-  type: 'time',
-  tickInterval: 60 * 60 * 1000,
-  mask: 'HH:mm',
-  range: [0, 1],
-};
-
-const cols = {
-  x: timeScale,
-  value: {
-    min: 0,
-  }
-};
 
 const LineChart: React.FC<ILineChartProps> = (props) => {
   const {
@@ -55,7 +39,6 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
     titleMap,
     legend,
     colors,
-    isArea,
     borderWidth,
     data: sourceData,
   } = props;
@@ -123,34 +106,14 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
         <Tooltip />
         <Legend name="key" position="top" {...legend} />
 
-        {isArea && (
-          <Geom
-            type="areaStack"
-            position="x*value"
-            color={
-              ['x', colors]
-            }
-          />
-        )}
-        {isArea && (
-          <Geom
-            type="lineStack"
-            position="x*value"
-            color={
-              ['x', colors]
-            }
-          />
-        )}
-        {!isArea && (
-          <Geom
-            type="line"
-            position="x*value"
-            size={borderWidth}
-            color={
-              colors ? ['x', colors] : 'key'
-            }
-          />
-        )}
+        <Geom
+          type="line"
+          position="x*value"
+          size={borderWidth}
+          color={
+            colors ? ['x', colors] : 'key'
+          }
+        />
       </Chart>
     </div>
   )
@@ -159,7 +122,6 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
 LineChart.defaultProps = {
   height: 400,
   borderWidth: 2,
-  isArea: false,
   padding: [60, 20, 40, 40],
   titleMap: {}
 };
