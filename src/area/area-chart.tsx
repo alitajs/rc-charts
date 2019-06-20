@@ -98,12 +98,6 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     }
   }, [props.data]);
 
-  const cols = Object.assign(scale, {
-    x: {
-
-    }
-  });
-
   return (
     <div
       className={classNames(className, {
@@ -114,7 +108,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       <Chart
         height={height}
         data={chartData}
-        scale={cols}
+        scale={scale}
         padding={padding}
         animate={animate}
         forceFit={forceFit}
@@ -160,7 +154,8 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
             }
             style={{
               stroke: "#fff",
-              lineWidth: 1
+              lineWidth: 1,
+              fillOpacity: 0,
             }}
           />
         )}
@@ -175,7 +170,7 @@ AreaChart.defaultProps = {
   animate: true,
   forceFit: true,
   borderWidth: 2,
-  scale: { },
+  scale: {},
   titleMap: {},
   data: [],
   isStack: false,
