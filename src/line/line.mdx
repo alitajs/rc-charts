@@ -13,14 +13,41 @@ import LineChart from './line-chart';
   <LineChart
     data={
       [
-        { x: 'chrome', y1: 20, y2: 30 },
-        { x: 'IE', y1: 10, y2: 20 },
-        { x: 'Firefox', y1: 20, y2: 40 }
+        { x: '1750', y1: 20 },
+        { x: '1800', y1: 10 },
+        { x: '1850', y1: 50 },
+        { x: '1900', y1: 60 },
+        { x: '1999', y1: 10 },
+        { x: '2050', y1: 100 }
       ]
     }
     titleMap={{
-      y1: '下载数',
-      y2: '好评数'
+      y1: '下载数'
+    }}
+  />
+</Playground>
+
+## 面积图
+
+<Playground>
+  <LineChart
+    data={
+      [
+        { x: '1750', y1: 20 },
+        { x: '1800', y1: 10 },
+        { x: '1850', y1: 50 },
+        { x: '1900', y1: 60 },
+        { x: '1999', y1: 10 },
+        { x: '2050', y1: 100 }
+      ]
+    }
+    legend={{
+      visible: false
+    }}
+    isArea={true}
+    color={['#6D5EAC']}
+    titleMap={{
+      y1: '下载数'
     }}
   />
 </Playground>

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { isArray } from 'awe-utils';
 import { DataView } from '@antv/data-set';
-import { Chart, Tooltip, Geom, Legend, Axis } from 'bizcharts';
+import { Chart, Tooltip, Geom, Legend, Axis, LegendProps } from 'bizcharts';
 import { TPadding} from '../pie';
 
 const prefixCls = 'rc-line-chart';
@@ -17,11 +17,16 @@ export interface ILineChartProps {
   style?: React.CSSProperties;
   padding?: TPadding;
   height?: number;
+  colors?: string[];
   data: IDataItem[];
+  // 是否是面积图
+  isArea?: boolean;
   title?: string | React.ReactNode;
   titleMap?: {
     [key: string]: any;
   };
+  // 图例配置
+  legend?: LegendProps;
   borderWidth?: number;
   legendPosition?: string;
 }
@@ -48,6 +53,9 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
     height,
     padding,
     titleMap,
+    legend,
+    colors,
+    isArea,
     borderWidth,
     data: sourceData,
   } = props;
@@ -86,6 +94,13 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
     }
   }, [props.data]);
 
+  const cols = {
+    x: {
+      type: 'linear',
+      tickInterval: 50,
+    },
+  };
+
   return (
     <div
       className={classNames(className, {
@@ -98,12 +113,44 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
         height={height}
         padding={padding}
         data={chartData}
+        scale={cols}
         forceFit
       >
-        <Axis name="x" />
+        {/* x轴 */}
+        <Axis key="axis-x" name="x" />
+        {/* y轴 */}
+        <Axis key="axis-y" name="value" />
         <Tooltip />
-        <Legend name="key" position="top" />
-        <Geom type="line" position="x*value" size={borderWidth} color="key" />
+        <Legend name="key" position="top" {...legend} />
+
+        {isArea && (
+          <Geom
+            type="areaStack"
+            position="x*value"
+            color={
+              ['x', colors]
+            }
+          />
+        )}
+        {isArea && (
+          <Geom
+            type="lineStack"
+            position="x*value"
+            color={
+              ['x', colors]
+            }
+          />
+        )}
+        {!isArea && (
+          <Geom
+            type="line"
+            position="x*value"
+            size={borderWidth}
+            color={
+              colors ? ['x', colors] : 'key'
+            }
+          />
+        )}
       </Chart>
     </div>
   )
@@ -112,6 +159,7 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
 LineChart.defaultProps = {
   height: 400,
   borderWidth: 2,
+  isArea: false,
   padding: [60, 20, 40, 40],
   titleMap: {}
 };
