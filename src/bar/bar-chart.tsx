@@ -38,10 +38,6 @@ export interface IBarProps {
   // 是否显示Label
   //
   showLabel?: boolean;
-  // 是否显示x轴
-  showXAxis?: boolean;
-  // 是否显示y轴
-  showYAxis?: boolean;
   // 是否显示图例
   showLegend?: boolean;
   // x轴相关配置
@@ -80,8 +76,6 @@ const BarChart: React.FC<IBarProps> = (props) => {
     height,
     xAxis,
     yAxis,
-    showXAxis,
-    showYAxis,
     showLabel,
     showLegend,
     padding,
@@ -140,13 +134,9 @@ const BarChart: React.FC<IBarProps> = (props) => {
         forceFit
       >
         {/* x轴 */}
-        {showXAxis && (
-          <Axis key="axis-x" name="x" {...xAxis} />
-        )}
+        <Axis key="axis-x" name="x" {...xAxis} />
         {/* y轴 */}
-        {showYAxis && (
-          <Axis key="axis-y" name="value" { ...yAxis } />
-        )}
+        <Axis key="axis-y" name="value" { ...yAxis } />
         <Coord transpose={direction === 'horizontal'} />
         <Tooltip />
         {showLegend && (
@@ -173,8 +163,6 @@ BarChart.defaultProps = {
   borderWidth: 20,
   padding: [60, 20, 40, 40],
   titleMap: {},
-  showXAxis: true,
-  showYAxis: true,
   showLabel: false
 };
 
