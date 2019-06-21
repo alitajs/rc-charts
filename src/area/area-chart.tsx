@@ -1,9 +1,12 @@
 import React from 'react';
 import { isArray } from 'awe-utils';
 import classNames from 'classnames';
+import chroma from 'chroma-js';
 import { DataView } from '@antv/data-set';
 import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
 import { TPadding} from '../pie';
+import * as G2 from "bizcharts/typings/g2";
+import line = G2.Styles.line;
 
 export interface IDataItem {
   x: any;
@@ -64,6 +67,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     data: sourceData
   } = props;
   const [chartData, setChartData] = React.useState(null);
+  const [areaColors, setAreaColors] = React.useState<string[]>([]);
 
   const data = isArray(sourceData) ? sourceData : [];
 
@@ -98,6 +102,14 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     }
   }, [props.data]);
 
+  React.useEffect(() => {
+    if (colors && colors.length && line) {
+      setAreaColors(colors.map(item =>
+        `l (90) 0:${chroma(item).alpha(0.8)} 1:${chroma(item).alpha(0.1)}`
+      ))
+    }
+  }, [props.colors]);
+
   return (
     <div
       className={classNames(className, {
@@ -126,7 +138,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
           type={isStack ? 'areaStack' : 'area'}
           position="x*value"
           color={
-            (colors && colors.length) ? ['key', colors] : 'key'
+            (areaColors && areaColors.length) ? ['key', areaColors] : 'key'
           }
           shape={smooth ? 'smooth' : ''}
         />
@@ -153,9 +165,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
               (colors && colors.length) ? ['key', colors] : 'key'
             }
             style={{
-              stroke: "#fff",
-              lineWidth: 1,
-              fillOpacity: 0,
+
             }}
           />
         )}

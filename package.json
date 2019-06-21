@@ -1,6 +1,6 @@
 {
   "name": "rc-charts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "G2 图表",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -34,6 +34,7 @@
     "antd": "^3.19.3",
     "awe-utils": "^0.0.7",
     "bizcharts": "^3.5.4",
+    "chroma-js": "^2.0.4",
     "classnames": "^2.2.6",
     "rc-fit-text": "^0.0.1"
   },
@@ -44,6 +45,8 @@
     "cross-env": "^5.2.0",
     "father": "^2.7.2",
     "gh-pages": "^2.0.1",
+    "install": "^0.12.2",
+    "npm": "^6.9.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.6",
     "typescript": "^3.5.1"
