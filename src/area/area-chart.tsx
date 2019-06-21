@@ -124,10 +124,10 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
         forceFit={forceFit}
       >
         {/** x轴 */}
-        <Axis name="x" {...xAxis} />
+        <Axis name="x" title {...xAxis} />
 
         {/** y轴 */}
-        <Axis name="value" {...yAxis} />
+        <Axis name="value" title {...yAxis} />
 
         {/** 图例 */}
         <Legend {...legend}/>
