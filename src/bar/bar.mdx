@@ -3,14 +3,14 @@ route: /bar
 name: 'Bar'
 ---
 import { Playground } from 'docz';
-import BarChart from './bar-chart';
+import Bar from './bar-chart';
 
 # LineChart
 
 ## 基础柱状图
 
 <Playground>
-  <BarChart
+  <Bar
     data={
       [
         { x: '1951', y1: 20 },
@@ -30,7 +30,7 @@ import BarChart from './bar-chart';
 # 堆叠柱状图
 
 <Playground>
-  <BarChart
+  <Bar
     data={
       [
         { x: 'Jan', london: 18.9, berlin: 12.4 },
@@ -54,7 +54,7 @@ import BarChart from './bar-chart';
 ## 基础条形图
 
 <Playground>
-  <BarChart
+  <Bar
     data={
       [
         { x: '1951', y1: 20 },
@@ -72,7 +72,7 @@ import BarChart from './bar-chart';
 ## 坐标轴自定义
 
 <Playground>
-  <BarChart
+  <Bar
     data={
       [
         { x: 'monday', series: 2800 },

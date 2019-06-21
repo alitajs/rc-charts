@@ -3,14 +3,14 @@ route: /pie
 name: 'Pie'
 ---
 import { Playground, Props } from 'docz';
-import PieChart from './pie-chart';
+import Pie from './pie-chart';
 
 # PieChart
 
 ## 基本使用
 
 <Playground>
-  <PieChart
+  <Pie
     data={
       [
         { x: 'chrome', y: 20 },
@@ -27,7 +27,7 @@ import PieChart from './pie-chart';
 ## 自定义颜色
 
 <Playground>
-  <PieChart
+  <Pie
     data={
       [
         { x: 'chrome', y: 20 },
@@ -46,5 +46,5 @@ import PieChart from './pie-chart';
 ## 百分比
 
 <Playground>
-  <PieChart percent={60} />
+  <Pie percent={60} />
 </Playground>

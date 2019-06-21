@@ -3,14 +3,14 @@ route: /line
 name: 'Line'
 ---
 import { Playground, Props } from 'docz';
-import LineChart from './line-chart';
+import Line from './line-chart';
 
 # Line Chart
 
 ## 基本折线图
 
 <Playground>
-  <LineChart
+  <Line
     data={
       [
         { x: '1750', y1: 20 },
@@ -31,7 +31,7 @@ import LineChart from './line-chart';
 ## 平滑线图
 
 <Playground>
-  <LineChart
+  <Line
     data={
       [
         { x: '1750', y1: 20 },
@@ -52,7 +52,7 @@ import LineChart from './line-chart';
 ## 堆叠线图
 
 <Playground>
-  <LineChart
+  <Line
     data={
       [
         { x: '1750', y1: 20, y2: 10 },
