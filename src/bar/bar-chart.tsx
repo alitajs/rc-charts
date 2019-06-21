@@ -10,7 +10,8 @@ import {
   Axis,
   Coord,
   Label,
-  AxisProps
+  AxisProps,
+  LabelProps
 } from 'bizcharts';
 import { TPadding} from '../pie';
 
@@ -37,6 +38,7 @@ export interface IBarProps {
   scale?: any;
   // 是否显示Label
   showLabel?: boolean;
+  label?: LabelProps;
   // 是否显示图例
   showLegend?: boolean;
   // x轴相关配置
@@ -63,6 +65,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
     xAxis,
     yAxis,
     colors,
+    label,
     showLabel,
     showLegend,
     padding,
@@ -141,7 +144,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
           size={borderWidth ? borderWidth : undefined}
         >
           {(showLabel && type === 'interval') && (
-            <Label content={['key*value', (name, value) => value]} />
+            <Label position="middle" content={['key*value', (name, value) => value]} {...label} />
           )}
         </Geom>
       </Chart>
