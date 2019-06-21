@@ -169,20 +169,15 @@ const PieChart: React.FC<IPieProps> = (props) => {
               selected={selected}
             />
           </Chart>
-
-          {(subTitle || total) && (
-            <div className={`${prefixCls}__content`}>
-              {title && (
-                <h5>{title}</h5>
-              )}
-              {total && (
-                <p>
-                  {typeof total === 'function' ? total() : total}
-                </p>
-              )}
-              {subTitle && <h5>{subTitle}</h5>}
-            </div>
-          )}
+          <div className={`${prefixCls}__content`}>
+            {title && (
+              <h4>{title}</h4>
+            )}
+            {total && (
+              <p>{typeof total === 'function' ? total() : total}</p>
+            )}
+            {subTitle && <h5>{subTitle}</h5>}
+          </div>
         </div>
       </FitText>
     </div>
