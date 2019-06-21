@@ -5,8 +5,6 @@ import chroma from 'chroma-js';
 import { DataView } from '@antv/data-set';
 import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
 import { TPadding} from '../pie';
-import * as G2 from "bizcharts/typings/g2";
-import line = G2.Styles.line;
 
 export interface IDataItem {
   x: any;
