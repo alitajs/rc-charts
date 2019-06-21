@@ -144,7 +144,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
           size={borderWidth ? borderWidth : undefined}
         >
           {(showLabel && type === 'interval') && (
-            <Label position="middle" content={['key*value', (name, value) => value]} {...label} />
+            <Label content={['key*value', (name, value) => value]} {...label} />
           )}
         </Geom>
       </Chart>
