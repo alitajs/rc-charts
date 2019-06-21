@@ -34,8 +34,8 @@ export interface IBarProps {
   titleMap?: {
     [key: string]: any;
   };
+  scale?: any;
   // 是否显示Label
-  //
   showLabel?: boolean;
   // 是否显示图例
   showLegend?: boolean;
@@ -52,24 +52,11 @@ export interface IBarProps {
   legendPosition?: string;
 }
 
-const timeScale = {
-  type: 'time',
-  tickInterval: 60 * 60 * 1000,
-  mask: 'HH:mm',
-  range: [0, 1],
-};
-
-const cols = {
-  x: timeScale,
-  value: {
-    min: 0,
-  }
-};
-
 const BarChart: React.FC<IBarProps> = (props) => {
   const {
     className,
     type,
+    scale,
     style,
     title,
     height,
@@ -133,6 +120,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
         height={height}
         padding={padding}
         data={chartData}
+        scale={scale}
         forceFit
       >
         {/* x轴 */}
@@ -150,7 +138,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
           color={
             ['x', defaultColors]
           }
-          size={borderWidth}
+          size={borderWidth ? borderWidth : undefined}
         >
           {(showLabel && type === 'interval') && (
             <Label content={['key*value', (name, value) => value]} />
@@ -165,8 +153,6 @@ BarChart.defaultProps = {
   height: 400,
   type: 'interval',
   direction: 'vertical',
-  borderWidth: 20,
-  padding: [60, 20, 40, 40],
   titleMap: {},
   showLabel: false
 };
