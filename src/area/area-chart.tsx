@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import chroma from 'chroma-js';
 import { DataView } from '@antv/data-set';
 import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
-import { TPadding} from '../pie';
+import { TPadding } from '../global';
 
 export interface IDataItem {
   x: any;

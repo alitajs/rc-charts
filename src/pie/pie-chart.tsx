@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord } from 'bizcharts';
+import { G2, Chart, Tooltip, Geom, Coord,  } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
+import { TPadding } from '../global';
 import './pie-chart.less';
 
 const prefixCls = 'rc-pie-chart';
@@ -11,18 +12,6 @@ export interface IDataItem {
   x: string;
   y: number;
 }
-
-export type TPadding =
-  string
-  | {
-    top: number;
-    right: number;
-    bottom: number;
-    left: number;
-  }
-  | number
-  | [number, number, number, number]
-  | [string, string];
 
 export interface IPieProps {
   className?: string;

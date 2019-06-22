@@ -1,7 +1,10 @@
 import { IBundleOptions } from 'father';
 
 const options: IBundleOptions = {
-  esm: 'rollup',
+  esm: {
+    type: 'rollup',
+    importLibToEs: true
+  },
   cjs: 'rollup',
   extraBabelPlugins: [
     ['import', { libraryName: 'antd', style: true }]
