@@ -17,7 +17,7 @@
 * 安装
 
 ```
-yarn add rc-charts bizcharts @antv/data-set
+yarn add rc-charts
 ```
 
 * 使用
