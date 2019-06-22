@@ -153,7 +153,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
                 [
                   'x',
                   percent || percent === 0 ? formatColor : defaultColors,
-                ] as any
+                ]
               }
               selected={selected}
             />
