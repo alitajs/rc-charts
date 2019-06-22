@@ -19,7 +19,7 @@
     "prepare": "yarn build",
     "build": "father build",
     "doc:dev": "father doc dev",
-    "doc:build": "cross-env DOCZ_BASE=/rc-charts/ father doc build",
+    "doc:build": "father doc build",
     "gh-pages": "yarn doc:build && gh-pages -d .doc"
   },
   "repository": "git@github.com:alitajs/rc-charts.git",

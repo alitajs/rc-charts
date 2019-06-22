@@ -12,13 +12,15 @@ const options: IBundleOptions = {
   ],
   // @ts-ignore
   doc: {
+    base: '/rc-charts',
     modifyBundlerConfig: (config) => {
       config['resolve'].alias = Object.assign({}, config['resolve'].alias, {
         '@charts': path.resolve(__dirname, 'src'),
       });
       return config;
     },
-    menu: []
+    public: 'docs/public',
+    indexHtml: 'docs/index.html',
   }
 };
 
