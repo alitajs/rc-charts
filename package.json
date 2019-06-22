@@ -43,16 +43,11 @@
     "@types/react": "^16.8.3",
     "babel-plugin-import": "^1.12.0",
     "cross-env": "^5.2.0",
-    "father": "^2.7.2",
+    "father": "^2.9.0",
     "gh-pages": "^2.0.1",
-    "install": "^0.12.2",
-    "npm": "^6.9.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.6",
     "typescript": "^3.5.1"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "engines": {
     "node": ">=8.9.0"
