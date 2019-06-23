@@ -11,18 +11,20 @@
 
   &__content {
     position: absolute;
+    display: flex;
     top: 50%;
     left: 50%;
     max-height: 62px;
     text-align: center;
     transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
 
     h4 {
       height: 22px;
       margin-bottom: 8px;
       color: @text-color-secondary;
       font-weight: normal;
-      font-size: 14px;
       line-height: 22px;
     }
 
@@ -30,7 +32,6 @@
       margin: 0;
       color: #8a8a8a;
       font-weight: normal;
-      font-size: 14px;
     }
 
     p {

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord,  } from 'bizcharts';
+import { G2, Chart, Tooltip, Geom, Coord, Axis } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
 import { TPadding } from '../global';
@@ -31,6 +31,8 @@ export interface IPieProps {
   subTitle?: React.ReactNode;
   // 是否显示tooltip
   tooltip?: boolean;
+  // 设置半径，[0-1]的小数
+  radius?: number;
   // 内部极坐标系的半径，[0-1]的小数
   innerRadius?: number;
   lineWidth?: number;
@@ -66,12 +68,15 @@ const PieChart: React.FC<IPieProps> = (props) => {
     title,
     subTitle,
     total,
+    radius,
     innerRadius,
     lineWidth,
     onGetG2Instance
   } = props;
+  const [innerWidth, setInnerWidth] = React.useState<number>(0);
 
   const handleGetG2Instance = (chart: G2.Chart) => {
+    setInnerWidth(chart.get('height') * innerRadius);
     onGetG2Instance && onGetG2Instance(chart);
   };
 
@@ -129,46 +134,60 @@ const PieChart: React.FC<IPieProps> = (props) => {
       })}
       style={style}
     >
-      <FitText maxFontSize={25}>
-        <div className={`${prefixCls}__chart`}>
-          <Chart
-            scale={scale}
-            height={height}
-            forceFit={forceFit}
-            data={dv}
-            padding={padding}
-            animate={animate}
-            onGetG2Instance={handleGetG2Instance}
+      <div className={`${prefixCls}__chart`}>
+        <Chart
+          scale={scale}
+          height={height}
+          forceFit={forceFit}
+          data={dv}
+          padding={padding}
+          animate={animate}
+          onGetG2Instance={handleGetG2Instance}
+        >
+          <Axis name="x" />
+          {/** 提示信息(tooltip)组件 */}
+          {!!tooltip && <Tooltip showTitle={false} />}
+          {/** 坐标系组件 */}
+          <Coord
+            type="theta"
+            radius={radius}
+            innerRadius={innerRadius}
+          />
+          <Geom
+            style={{ lineWidth, stroke: '#fff' }}
+            tooltip={tooltip ? tooltipFormat : undefined}
+            type="intervalStack"
+            position="percent"
+            color={
+              [
+                'x',
+                percent || percent === 0 ? formatColor : defaultColors,
+              ]
+            }
+            selected={selected}
+          />
+        </Chart>
+        <FitText>
+          <div
+            className={`${prefixCls}__content`}
+            style={{
+              width: innerWidth,
+              height: +innerWidth,
+              padding: innerWidth * 0.2
+            }}
           >
-            {/** 提示信息(tooltip)组件 */}
-            {!!tooltip && <Tooltip showTitle={false} />}
-            {/** 坐标系组件 */}
-            <Coord type="theta" innerRadius={innerRadius} />
-            <Geom
-              style={{ lineWidth, stroke: '#fff' }}
-              tooltip={tooltip ? tooltipFormat : undefined}
-              type="intervalStack"
-              position="percent"
-              color={
-                [
-                  'x',
-                  percent || percent === 0 ? formatColor : defaultColors,
-                ]
-              }
-              selected={selected}
-            />
-          </Chart>
-          <div className={`${prefixCls}__content`}>
-            {title && (
-              <h4>{title}</h4>
-            )}
-            {total && (
-              <p>{typeof total === 'function' ? total() : total}</p>
-            )}
-            {subTitle && <h5>{subTitle}</h5>}
+            <div>
+              {title && (
+                <h4>{title}</h4>
+              )}
+              {total && (
+                <p>{typeof total === 'function' ? total() : total}</p>
+              )}
+              {subTitle && <h5>{subTitle}</h5>}
+            </div>
           </div>
-        </div>
-      </FitText>
+        </FitText>
+      </div>
     </div>
   )
 };
@@ -177,9 +196,11 @@ PieChart.defaultProps = {
   animate: true,
   forceFit: true,
   height: 400,
-  innerRadius: 0.75,
+  radius: 1,
+  innerRadius: 0,
   lineWidth: 1,
-  padding: [12, 0, 12, 0]
+  data: [],
+  padding: 'auto'
 };
 
 export default PieChart;

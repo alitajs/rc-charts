@@ -39,7 +39,9 @@ const options: IBundleOptions = {
         width: '60px',
       },
     },
-    title: 'Rc Charts'
+    title: 'Rc Charts',
+    repository: 'https://github.com/alitajs/rc-charts',
+    description: 'react chart components',
   }
 };
 

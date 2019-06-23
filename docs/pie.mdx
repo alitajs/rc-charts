@@ -1,0 +1,79 @@
+---
+route: /pie
+name: 'Pie'
+---
+import { Playground, Props } from 'docz';
+import Pie from '@charts/pie';
+
+# Pie
+
+## 基础饼图
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: 'chrome', y: 20 },
+        { x: 'IE', y: 20 },
+        { x: 'Firefox', y: 20 }
+      ]
+    }
+    tooltip={true}
+    innerRadius={0}
+  />
+</Playground>
+
+
+## 基础环图
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: 'chrome', y: 20 },
+        { x: 'IE', y: 20 },
+        { x: 'Firefox', y: 20 }
+      ]
+    }
+    tooltip={true}
+    innerRadius={0.75}
+    subTitle="总预警数"
+    total={100}
+    height={300}
+  />
+</Playground>
+
+## 自定义颜色
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: 'chrome', y: 20 },
+        { x: 'IE', y: 20 },
+        { x: 'Firefox', y: 20 }
+      ]
+    }
+    colors={['#6D5EAC', '#DFDFDF', '#F35A58']}
+    tooltip={true}
+  />
+</Playground>
+
+
+## 百分比
+
+<Playground>
+  <Pie percent={60} />
+</Playground>
+
+## API
+
+|参数|说明|类型|默认值|
+|--|--|--|--|
+|height|指定图表的高度，单位为 'px'|number|400|
+|animate|动画开关|boolean|true|
+|data|图表的数据源|Array|[]|
+|forceFit|图表的宽度自适应开关|boolean|true|
+|colors|自定义颜色|string[]|--|
+|radius|设置半径，[0-1]的小数|number(0-1)|1|
+|innerRadius|内部极坐标系的半径|number(0-1)|0|
