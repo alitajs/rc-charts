@@ -7,7 +7,7 @@ import Pie from '@charts/pie';
 
 # Pie
 
-## 基本使用
+## 基础饼图
 
 <Playground>
   <Pie
@@ -19,6 +19,24 @@ import Pie from '@charts/pie';
       ]
     }
     tooltip={true}
+    innerRadius={0}
+  />
+</Playground>
+
+
+## 基础环图
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: 'chrome', y: 20 },
+        { x: 'IE', y: 20 },
+        { x: 'Firefox', y: 20 }
+      ]
+    }
+    tooltip={true}
+    innerRadius={0.75}
     subTitle="总预警数"
     total={100}
   />
@@ -37,8 +55,6 @@ import Pie from '@charts/pie';
     }
     colors={['#6D5EAC', '#DFDFDF', '#F35A58']}
     tooltip={true}
-    subTitle="总预警数"
-    total={100}
   />
 </Playground>
 
@@ -55,3 +71,7 @@ import Pie from '@charts/pie';
 |--|--|--|--|
 |height|指定图表的高度，单位为 'px'|number|400|
 |animate|动画开关|boolean|true|
+|data|图表的数据源|Array|[]|
+|forceFit|图表的宽度自适应开关|boolean|true|
+|colors|自定义颜色|string[]|--|
+|innerRadius|内部极坐标系的半径|number(0-1)|0|

@@ -177,8 +177,9 @@ PieChart.defaultProps = {
   animate: true,
   forceFit: true,
   height: 400,
-  innerRadius: 0.75,
+  innerRadius: 0,
   lineWidth: 1,
+  data: [],
   padding: [12, 0, 12, 0]
 };
 
