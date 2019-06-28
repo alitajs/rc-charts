@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isArray } from 'awe-utils';
 import { DataView } from '@antv/data-set';
 import { Chart, Tooltip, Geom, Legend, Axis, LegendProps } from 'bizcharts';
-import { TPadding } from '../global';
+import { TPadding } from '@/global';
 
 const prefixCls = 'rc-line-chart';
 

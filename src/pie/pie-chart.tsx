@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { G2, Chart, Tooltip, Geom, Coord, Axis } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
-import { TPadding } from '../global';
+import { TPadding } from '@/global';
 import './pie-chart.less';
 
 const prefixCls = 'rc-pie-chart';
