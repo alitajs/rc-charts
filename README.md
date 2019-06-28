@@ -5,6 +5,8 @@
 [![NPM version](https://img.shields.io/npm/v/rc-charts.svg?style=flat)](https://npmjs.org/package/rc-charts)
 [![NPM downloads](http://img.shields.io/npm/dm/rc-charts.svg?style=flat)](https://npmjs.org/package/rc-charts)
 
+**项目由来: BizCharts 使用起来相对比较繁琐，比较难于在项目在推广，故封装下常见的图表，简化使用方式，减少学习成本。**
+
 # 特性
 
 * 💡 TypeScript: 使用TypeScript编写
