@@ -1,6 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord, Axis } from 'bizcharts';
+import {
+  G2,
+  Chart,
+  Tooltip,
+  Geom,
+  Coord,
+  Label,
+  LabelProps
+} from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
 import { TPadding } from '@/global';
@@ -16,6 +24,8 @@ export interface IDataItem {
 export interface IPieProps {
   className?: string;
   style?: React.CSSProperties;
+  //
+  type: 'polar' | 'theta';
   // 图表动画开关，默认为 true
   animate?: boolean;
   color?: string;
@@ -29,6 +39,10 @@ export interface IPieProps {
   total?: React.ReactNode | number | (() => React.ReactNode | number);
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
+  // 是否显示Label
+  showLabel?: boolean;
+  // 标注文本
+  label?: LabelProps;
   // 是否显示tooltip
   tooltip?: boolean;
   // 设置半径，[0-1]的小数
@@ -58,6 +72,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
   const {
     className,
     style,
+    type,
     height,
     forceFit,
     padding,
@@ -67,6 +82,8 @@ const PieChart: React.FC<IPieProps> = (props) => {
     colors,
     title,
     subTitle,
+    label,
+    showLabel,
     total,
     radius,
     innerRadius,
@@ -136,7 +153,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
     >
       <div className={`${prefixCls}__chart`}>
         <Chart
-          scale={scale}
+          scale={type === 'theta' ? scale : undefined}
           height={height}
           forceFit={forceFit}
           data={dv}
@@ -144,20 +161,19 @@ const PieChart: React.FC<IPieProps> = (props) => {
           animate={animate}
           onGetG2Instance={handleGetG2Instance}
         >
-          <Axis name="x" />
           {/** 提示信息(tooltip)组件 */}
           {!!tooltip && <Tooltip showTitle={false} />}
           {/** 坐标系组件 */}
           <Coord
-            type="theta"
+            type={type}
             radius={radius}
             innerRadius={innerRadius}
           />
           <Geom
             style={{ lineWidth, stroke: '#fff' }}
             tooltip={tooltip ? tooltipFormat : undefined}
-            type="intervalStack"
-            position="percent"
+            type={type === 'theta' ? 'intervalStack' : 'interval'}
+            position={type === 'theta' ? 'percent' : 'x*percent'}
             color={
               [
                 'x',
@@ -165,7 +181,11 @@ const PieChart: React.FC<IPieProps> = (props) => {
               ]
             }
             selected={selected}
-          />
+          >
+            {showLabel && (
+              <Label content='percent' {...label}/>
+            )}
+          </Geom>
         </Chart>
         <FitText>
           <div
@@ -193,8 +213,10 @@ const PieChart: React.FC<IPieProps> = (props) => {
 };
 
 PieChart.defaultProps = {
+  type: 'theta',
   animate: true,
   forceFit: true,
+  showLabel: false,
   height: 400,
   radius: 1,
   innerRadius: 0,
