@@ -1,7 +1,6 @@
 import React from 'react';
 import { isArray } from 'awe-utils';
 import classNames from 'classnames';
-import chroma from 'chroma-js';
 import { DataView } from '@antv/data-set';
 import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
 import { TPadding } from '@/global';
@@ -65,7 +64,6 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     data: sourceData
   } = props;
   const [chartData, setChartData] = React.useState(null);
-  const [areaColors, setAreaColors] = React.useState<string[]>([]);
 
   const data = isArray(sourceData) ? sourceData : [];
 
@@ -100,14 +98,6 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     }
   }, [props.data]);
 
-  React.useEffect(() => {
-    if (colors && colors.length && line) {
-      setAreaColors(colors.map(item =>
-        `l (90) 0:${chroma(item).alpha(0.8)} 1:${chroma(item).alpha(0.1)}`
-      ))
-    }
-  }, [props.colors]);
-
   return (
     <div
       className={classNames(className, {
@@ -136,7 +126,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
           type={isStack ? 'areaStack' : 'area'}
           position="x*value"
           color={
-            (areaColors && areaColors.length) ? ['key', areaColors] : 'key'
+            (colors && colors.length) ? ['key', colors] : 'key'
           }
           shape={smooth ? 'smooth' : ''}
         />
