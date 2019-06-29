@@ -11,6 +11,14 @@ import { HeatMapCalendar } from '@charts/heat-map';
 ## 水平日历色块图
 
 <Playground>
-  <HeatMapCalendar />
+  <HeatMapCalendar
+    range={['2017-05', '2017-10']}
+    data={{
+      '2017-05-01': 20,
+      '2017-05-05': 2,
+      '2017-06-05': 5,
+    }}
+    colors={'#eeeeee-#FDE6E6-#F9ACAB-#F35A58-#9E3B39'}
+  />
 </Playground>
 
