@@ -13,7 +13,7 @@ import {
   AxisProps,
   LabelProps
 } from 'bizcharts';
-import { TPadding } from '../global';
+import { TPadding } from '@/global';
 
 const prefixCls = 'rc-bar-chart';
 

@@ -59,21 +59,67 @@ import Pie from '@charts/pie';
   />
 </Playground>
 
-
 ## 百分比
 
 <Playground>
   <Pie percent={60} />
 </Playground>
 
+
+## 南丁格尔玫瑰彩图
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: "2001", y: 41.8 },
+        { x: "2002", y: 38 },
+        { x: "2003", y: 33.7 },
+        { x: "2004", y: 30 },
+        { x: "2005", y: 25.8 },
+        { x: "2006", y: 31.7 },
+        { x: "2007", y: 33 },
+        { x: "2008", y: 46 },
+        { x: "2009", y: 38.3 },
+      ]
+    }
+    tooltip={true}
+    type="polar"
+  />
+</Playground>
+
+## 南丁格尔玫瑰环图
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: "2001", y: 41.8 },
+        { x: "2002", y: 38 },
+        { x: "2003", y: 33.7 },
+        { x: "2004", y: 30 },
+        { x: "2005", y: 25.8 },
+        { x: "2006", y: 31.7 },
+        { x: "2007", y: 33 },
+        { x: "2008", y: 46 },
+        { x: "2009", y: 38.3 },
+      ]
+    }
+    innerRadius={0.2}
+    tooltip={true}
+    type="polar"
+  />
+</Playground>
+
 ## API
 
 |参数|说明|类型|默认值|
 |--|--|--|--|
-|height|指定图表的高度，单位为 'px'|number|400|
+|type|类型，可选值为`polar`、`theta`| string |`theta`|
 |animate|动画开关|boolean|true|
+|colors|自定义颜色|string[]|--|
+|height|指定图表的高度，单位为 'px'|number|400|
 |data|图表的数据源|Array|[]|
 |forceFit|图表的宽度自适应开关|boolean|true|
-|colors|自定义颜色|string[]|--|
 |radius|设置半径，[0-1]的小数|number(0-1)|1|
 |innerRadius|内部极坐标系的半径|number(0-1)|0|
