@@ -6,8 +6,10 @@ import {
   Tooltip,
   Coord,
   Shape,
-  Util
+  Util,
+  AxisProps
 } from 'bizcharts';
+import { TPadding } from '@/global';
 import { getChartData } from './utils';
 
 export interface IData {
@@ -20,11 +22,16 @@ interface IProps {
   height?: number;
   forceFit?: boolean;
   colors?: string;
+  weekAxis?: AxisProps;
+  dayAxis?: AxisProps;
+  padding?: TPadding;
+  borderWidth?: number;
+  scale?: any;
   // 数据
   data: IData
 }
 
-const cols = {
+const defaultCols = {
   day: {
     type: 'cat',
     values: [
@@ -46,19 +53,36 @@ const cols = {
 };
 
 const CalendarHorizontal: React.FC<IProps> = (props) => {
-  const { range, data, colors } = props;
-  const [chartData, setChartData] = React.useState([]);
+  const {
+    scale,
+    range,
+    data,
+    colors,
+    height,
+    weekAxis,
+    dayAxis,
+    padding,
+    forceFit,
+    borderWidth
+  } = props;
+  const [chartData, setChartData] = React.useState<any>([]);
+  const [cols, setCols] = React.useState<any>(defaultCols);
 
   React.useEffect(() => {
     setChartData(getChartData(range, data));
   }, [props.range, props.data]);
+
+  React.useEffect(() => {
+    if (!scale) return;
+    setCols(Object.assign({}, defaultCols, scale));
+  }, [props.scale]);
 
   Shape.registerShape('polygon', 'boundary-polygon', {
     draw(cfg, container) {
       if (!Util.isEmpty(cfg.points)) {
         const attrs = {
           stroke: '#fff',
-          lineWidth: 1,
+          lineWidth: borderWidth,
           fill: cfg.color,
           fillOpacity: cfg.opacity
         };
@@ -84,15 +108,16 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
   return (
     <div>
       <Chart
-        height={400}
+        height={height}
         data={chartData}
         scale={cols}
-        forceFit
+        padding={padding}
+        forceFit={forceFit}
       >
         <Tooltip title='date' />
         <Axis
           name="week"
-          position="top"
+          position="bottom"
           tickLine={null}
           line={null}
           label={{
@@ -104,24 +129,29 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
             },
             formatter: val => {
               if (val === '2') {
-                return 'MAY';
+                return '五月';
               } else if (val === '6') {
-                return 'JUN';
+                return '六月';
               } else if (val === '10') {
-                return 'JUL';
+                return '七月';
               } else if (val === '15') {
-                return 'AUG';
+                return '八月';
               } else if (val === '19') {
-                return 'SEP';
+                return '九月';
               } else if (val === '24') {
-                return 'OCT';
+                return '十月';
               }
 
               return '';
-            }
+            },
           }}
+          {...weekAxis}
         />
-        <Axis name='day' grid={null} />
+        <Axis
+          name='day'
+          grid={null}
+          {...dayAxis}
+        />
         <Geom
           type="polygon"
           position='week*day*date'
@@ -132,6 +162,11 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
       </Chart>
     </div>
   )
+};
+
+CalendarHorizontal.defaultProps = {
+  height: 400,
+  borderWidth: 2
 };
 
 export default CalendarHorizontal;
