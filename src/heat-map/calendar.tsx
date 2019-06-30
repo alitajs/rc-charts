@@ -27,6 +27,8 @@ interface IProps {
   padding?: TPadding;
   borderWidth?: number;
   scale?: any;
+  // 已周几为一周的开始
+  weekStart: 1 | 7,
   // 数据
   data: IData
 }
@@ -63,22 +65,27 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
     dayAxis,
     padding,
     forceFit,
+    weekStart,
     borderWidth
   } = props;
   const [chartData, setChartData] = React.useState<any>([]);
-  const [startWeek, setStartWeek] = React.useState<number>(0);
   const [cols, setCols] = React.useState<any>(defaultCols);
 
+  if (weekStart === 1) {
+    defaultCols.day.values = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  } else {
+    defaultCols.day.values = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  }
+
   React.useEffect(() => {
-    const result = getChartData(range, data);
+    const result = getChartData(range, data, weekStart);
     setChartData(result.data);
-    setStartWeek(result.startWeek)
   }, [props.range, props.data]);
 
   React.useEffect(() => {
     if (!scale) return;
     setCols(Object.assign({}, defaultCols, scale));
-  }, [props.scale]);
+  }, [props.scale, props.weekStart]);
 
   Shape.registerShape('polygon', 'boundary-polygon', {
     draw(cfg, container) {
@@ -181,7 +188,8 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
 
 CalendarHorizontal.defaultProps = {
   height: 400,
-  borderWidth: 2
+  borderWidth: 2,
+  weekStart: 1
 };
 
 export default CalendarHorizontal;

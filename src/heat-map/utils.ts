@@ -89,10 +89,12 @@ export function getVirtualDate(
  * 获取chart数据
  * @param range
  * @param data
+ * @param weekStart
  */
 export function getChartData(
   range: string | string[],
-  data: IData = {}
+  data: IData = {},
+  weekStart: 1 | 7
 ) {
   const result = {
     data: [],
@@ -106,7 +108,13 @@ export function getChartData(
     result.data = dates.map((item, index) => {
       const current = moment(item);
 
-      const weekday = current.weekday();
+      let weekday = current.weekday();
+
+      if (weekStart === 1) {
+        weekday = current.weekday() === 0 ? 7 : current.weekday();
+
+        weekday = weekday -1;
+      }
 
       if (weekday === 0 && index !== 0) {
         weeks.push(weeks[weeks.length - 1] + 1);
@@ -117,7 +125,7 @@ export function getChartData(
         week: weeks[weeks.length - 1],
         value: data[item] || 0,
         // 周几
-        day: current.weekday(),
+        day: weekday,
         month: current.month(),
       }
     });
