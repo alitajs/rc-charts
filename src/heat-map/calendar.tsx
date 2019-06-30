@@ -66,10 +66,13 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
     borderWidth
   } = props;
   const [chartData, setChartData] = React.useState<any>([]);
+  const [startWeek, setStartWeek] = React.useState<number>(0);
   const [cols, setCols] = React.useState<any>(defaultCols);
 
   React.useEffect(() => {
-    setChartData(getChartData(range, data));
+    const result = getChartData(range, data);
+    setChartData(result.data);
+    setStartWeek(result.startWeek)
   }, [props.range, props.data]);
 
   React.useEffect(() => {
@@ -129,17 +132,29 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
             },
             formatter: val => {
               if (val === '2') {
-                return '五月';
+                return '一月';
               } else if (val === '6') {
-                return '六月';
+                return '二月';
               } else if (val === '10') {
-                return '七月';
+                return '三月';
               } else if (val === '15') {
-                return '八月';
+                return '四月';
               } else if (val === '19') {
-                return '九月';
+                return '五月';
               } else if (val === '24') {
+                return '六月';
+              } else if (val === '28') {
+                return '七月';
+              } else if (val === '33') {
+                return '八月';
+              } else if (val === '37') {
+                return '九月';
+              } else if (val === '42') {
                 return '十月';
+              } else if (val === '46') {
+                return '十一月';
+              } else if (val === '51') {
+                return '十二月';
               }
 
               return '';
