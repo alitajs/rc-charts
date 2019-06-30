@@ -64,7 +64,7 @@ export function getDateRange(
   return [startDate, endDate]
 }
 
-// 获取制动间隔的所有日期
+// 获取间隔的所有日期
 export function getVirtualDate(
   range: string | string[]
 ): string[] {
@@ -85,23 +85,47 @@ export function getVirtualDate(
   return dates;
 }
 
+/**
+ * 获取chart数据
+ * @param range
+ * @param data
+ * @param weekStart
+ */
 export function getChartData(
   range: string | string[],
-  data: IData = {}
+  data: IData = {},
+  weekStart: 1 | 7
 ) {
-  let result = [];
+  const result = {
+    data: [],
+    startWeek: 0
+  };
+  const weeks = [0];
   const dates = getVirtualDate(range);
 
   if (dates && dates.length) {
-    const startWeek = moment(dates[0]).week();
-    result = dates.map(item => {
+    result.startWeek = moment(dates[0]).week();
+    result.data = dates.map((item, index) => {
       const current = moment(item);
+
+      let weekday = current.weekday();
+
+      if (weekStart === 1) {
+        weekday = current.weekday() === 0 ? 7 : current.weekday();
+
+        weekday = weekday -1;
+      }
+
+      if (weekday === 0 && index !== 0) {
+        weeks.push(weeks[weeks.length - 1] + 1);
+      }
+
       return {
         date: item,
-        week: (current.week() - startWeek).toString(),
+        week: weeks[weeks.length - 1],
         value: data[item] || 0,
         // 周几
-        day: current.weekday(),
+        day: weekday,
         month: current.month(),
       }
     });
