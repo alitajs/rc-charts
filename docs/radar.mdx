@@ -1,0 +1,68 @@
+---
+route: /radar
+name: 'Radar'
+---
+
+import { Playground, Props } from 'docz';
+import Radar from '@charts/radar';
+
+# Radar charts
+
+## 基础雷达图
+
+<Playground>
+  <Radar
+    data={
+      [
+        {"x": "苹果", "y1": 70, "y2": 30},
+        {"x": "梨子", "y1": 50, "y2": 60},
+        {"x": "西瓜", "y1": 60, "y2": 70},
+        {"x": "橙子", "y1": 40, "y2": 50},
+        {"x": "葡萄", "y1": 60, "y2": 70},
+        {"x": "香蕉", "y1": 80, "y2": 50},
+        {"x": "桃子", "y1": 50, "y2": 40},
+        {"x": "榴莲", "y1": 70, "y2": 60}
+      ]
+    }
+    titleMap={{
+      "y1": "下载量",
+      "y2": "点赞量"
+    }}
+    cols={{
+      "value": {
+        min: 0,
+        max: 80,
+      }
+    }}
+    colors={['green', 'yellow']}
+    radius={0.75}
+    borderWidth={2}
+    height={400}
+    title={'雷达图'}
+    padding={[40, 40, 95, 20]}
+  />
+</Playground>
+
+## 基础雷达图(线)
+
+<Playground>
+  <Radar
+    data={
+      [
+        {"x": "苹果", "y1": 70, "y2": 30},
+        {"x": "梨子", "y1": 50, "y2": 60},
+        {"x": "西瓜", "y1": 60, "y2": 70},
+        {"x": "橙子", "y1": 40, "y2": 50},
+        {"x": "葡萄", "y1": 60, "y2": 70},
+        {"x": "香蕉", "y1": 80, "y2": 50},
+        {"x": "桃子", "y1": 50, "y2": 40},
+        {"x": "榴莲", "y1": 70, "y2": 60}
+      ]
+    }
+    titleMap={{
+      "y1": "下载量",
+      "y2": "点赞量"
+    }}
+    areas={false}
+  />
+</Playground>
