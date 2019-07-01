@@ -55,7 +55,7 @@ const defaultCols = {
   }
 };
 
-const Calendar: React.FC<IProps> = (props) => {
+export const Calendar: React.FC<IProps> = (props) => {
   const {
     scale,
     range,
@@ -197,5 +197,3 @@ Calendar.defaultProps = {
   weekStart: 1,
   data: {}
 };
-
-export default Calendar;
