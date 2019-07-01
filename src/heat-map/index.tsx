@@ -1,1 +1,1 @@
-export { default as HeatMapCalendar } from './calendar';
+export { Calendar } from './calendar';

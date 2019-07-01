@@ -19,6 +19,7 @@ export interface IData {
 interface IProps {
   // 时间范围
   range?: string | string[];
+  animate?: boolean;
   height?: number;
   forceFit?: boolean;
   colors?: string;
@@ -54,11 +55,12 @@ const defaultCols = {
   }
 };
 
-const CalendarHorizontal: React.FC<IProps> = (props) => {
+export const Calendar: React.FC<IProps> = (props) => {
   const {
     scale,
     range,
     data,
+    animate,
     colors,
     height,
     weekAxis,
@@ -121,6 +123,7 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
         height={height}
         data={chartData}
         scale={cols}
+        animate={animate}
         padding={padding}
         forceFit={forceFit}
       >
@@ -186,10 +189,11 @@ const CalendarHorizontal: React.FC<IProps> = (props) => {
   )
 };
 
-CalendarHorizontal.defaultProps = {
+Calendar.defaultProps = {
   height: 400,
+  animate: true,
+  forceFit: true,
   borderWidth: 2,
-  weekStart: 1
+  weekStart: 1,
+  data: {}
 };
-
-export default CalendarHorizontal;
