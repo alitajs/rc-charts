@@ -66,3 +66,20 @@ import Radar from '@charts/radar';
     areas={false}
   />
 </Playground>
+
+## API
+
+|参数|说明|类型|默认值|
+|--|--|--|--|
+|height|指定图表的高度，单位为 'px'|number|400|
+|data|图表的数据源|Array|[]|
+|colors|自定义颜色|string[]|--|
+|radius|设置半径，[0-1]的小数|number(0-1)|1|
+|titleMap|数据源 `key` 对应的标题|object|{}|
+|areas|是否出现面积样式|boolean|true|
+|cols|配置数据比例尺，该配置会影响数据在图表中的展示方式(可以参考`基础雷达图`)|object|--|
+|borderWidth|线的宽度|number|2|
+|title|图表左上方的文字显示|string|--|
+|padding|内边距属性|number[]|auto|
+|xAxis|x坐标轴的配置|object|{}|
+|yAxis|y坐标轴的配置|object|{}|
