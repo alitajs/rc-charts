@@ -28,13 +28,11 @@ import Pie from '@charts/pie';
 
 <Playground>
   <Pie
-    data={
-      [
-        { x: 'chrome', y: 20 },
-        { x: 'IE', y: 20 },
-        { x: 'Firefox', y: 20 }
-      ]
-    }
+    data={[
+      { x: 'chrome', y: 20 },
+      { x: 'IE', y: 20 },
+      { x: 'Firefox', y: 20 }
+    ]}
     tooltip={true}
     innerRadius={0.75}
     subTitle="总预警数"
@@ -42,6 +40,28 @@ import Pie from '@charts/pie';
     height={300}
   />
 </Playground>
+
+## 自定义
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: '常住', y: 4990 },
+        { x: '外来', y: 110 }
+      ]
+    }
+    innerRadius={0.75}
+    total={5100}
+    legend={{
+      visible: true
+    }}
+    subTitle="出入总人数"
+    colors={['#6D5EAC', '#DFDFDF', '#F35A58']}
+    tooltip={true}
+  />
+</Playground>
+
 
 ## 自定义颜色
 

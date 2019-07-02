@@ -77,8 +77,6 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
           value: 'value'
         });
 
-      console.log(dv);
-
       setChartData(dv);
     }
   }, [props.data]);
