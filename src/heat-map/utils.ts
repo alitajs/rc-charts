@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { IData } from './calendar';
 
+const Months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+
 /**
  * 解析时间范围
  * @param range
@@ -98,13 +100,17 @@ export function getChartData(
 ) {
   const result = {
     data: [],
-    startWeek: 0
+    months: []
   };
   const weeks = [0];
   const dates = getVirtualDate(range);
 
   if (dates && dates.length) {
-    result.startWeek = moment(dates[0]).week();
+    // 求取需要展示的月份
+    const startMonth = moment(dates[0]).month();
+    const endMonth = moment(dates[dates.length - 1]).month();
+
+    result.months = getMonths(startMonth, endMonth);
     result.data = dates.map((item, index) => {
       const current = moment(item);
 
@@ -132,4 +138,27 @@ export function getChartData(
   }
 
   return result;
+}
+
+// 获取设置范围所有的月份
+export function getMonths(
+  startMonth: number,
+  endMonth: number
+): string[] {
+  const months = [];
+
+  if (startMonth < endMonth) {
+    for (let i = startMonth; i <= endMonth; i++) {
+      months.push(i);
+    }
+  } else {
+    for (let i = startMonth; i <= 11; i++) {
+      months.push(i);
+    }
+    for (let i = 0; i <= endMonth; i++) {
+      months.push(i);
+    }
+  }
+
+  return months.map(item => Months[item]);
 }

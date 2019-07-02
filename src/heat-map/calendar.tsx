@@ -37,15 +37,7 @@ interface IProps {
 const defaultCols = {
   day: {
     type: 'cat',
-    values: [
-      '周日',
-      '周一',
-      '周二',
-      '周三',
-      '周四',
-      '周五',
-      '周六'
-    ]
+    values: []
   },
   week: {
     type: 'cat'
@@ -71,6 +63,7 @@ export const Calendar: React.FC<IProps> = (props) => {
     borderWidth
   } = props;
   const [chartData, setChartData] = React.useState<any>([]);
+  const [months, setMonths] = React.useState<any>([]);
   const [cols, setCols] = React.useState<any>(defaultCols);
 
   if (weekStart === 1) {
@@ -82,6 +75,8 @@ export const Calendar: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     const result = getChartData(range, data, weekStart);
     setChartData(result.data);
+    setMonths(result.months);
+    console.log(result.months);
   }, [props.range, props.data]);
 
   React.useEffect(() => {
@@ -142,29 +137,29 @@ export const Calendar: React.FC<IProps> = (props) => {
             },
             formatter: val => {
               if (val === '2') {
-                return '一月';
+                return months[0];
               } else if (val === '6') {
-                return '二月';
+                return months[1];
               } else if (val === '10') {
-                return '三月';
+                return months[2];
               } else if (val === '15') {
-                return '四月';
+                return months[3];
               } else if (val === '19') {
-                return '五月';
+                return months[4];
               } else if (val === '24') {
-                return '六月';
+                return months[5];
               } else if (val === '28') {
-                return '七月';
+                return months[6];
               } else if (val === '33') {
-                return '八月';
+                return months[7];
               } else if (val === '37') {
-                return '九月';
+                return months[8];
               } else if (val === '42') {
-                return '十月';
+                return months[9];
               } else if (val === '46') {
-                return '十一月';
+                return months[10];
               } else if (val === '51') {
-                return '十二月';
+                return months[11];
               }
 
               return '';
@@ -174,7 +169,6 @@ export const Calendar: React.FC<IProps> = (props) => {
         />
         <Axis
           name='day'
-          grid={null}
           {...dayAxis}
         />
         <Geom
