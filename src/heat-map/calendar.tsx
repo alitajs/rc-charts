@@ -76,7 +76,6 @@ export const Calendar: React.FC<IProps> = (props) => {
     const result = getChartData(range, data, weekStart);
     setChartData(result.data);
     setMonths(result.months);
-    console.log(result.months);
   }, [props.range, props.data]);
 
   React.useEffect(() => {
