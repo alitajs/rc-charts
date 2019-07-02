@@ -1,9 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord, Axis, Legend, LegendProps, AxisProps } from 'bizcharts';
+import {
+  Chart,
+  Tooltip,
+  Geom,
+  Coord,
+  Axis,
+  Legend,
+  LegendProps,
+  AxisProps
+} from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import { isArray } from 'awe-utils';
-import { TPadding } from '../global';
+import { TPadding } from '@/global';
 
 const prefixCls = 'rc-line-chart';
 
@@ -107,9 +116,9 @@ const RadarChart: React.FC<IRadarChartProps> = (props) => {
         <Tooltip />
         <Legend />
         {/* x轴 */}
-        <Axis 
-          key="axis-x" 
-          name='x' 
+        <Axis
+          key="axis-x"
+          name='x'
           line={null}
           tickLine={null}
           grid={{
@@ -118,12 +127,12 @@ const RadarChart: React.FC<IRadarChartProps> = (props) => {
             },
             hideFirstLine: false
           }}
-          {...xAxis} 
+          {...xAxis}
         />
         {/* y轴 */}
-        <Axis 
-          key="axis-y" 
-          name='value' 
+        <Axis
+          key="axis-y"
+          name='value'
           line={null}
           tickLine={null}
           grid={{
@@ -133,33 +142,33 @@ const RadarChart: React.FC<IRadarChartProps> = (props) => {
             },
             alternateColor: "rgba(0, 0, 0, 0.04)"
           }}
-          {...yAxis} 
+          {...yAxis}
         />
-        <Geom 
+        <Geom
           type='line'
           position='x*value'
           size={borderWidth}
           color={colors.length ? ['key', colors] : 'key'}
         />
-        <Geom 
+        <Geom
           type='point'
           position='x*value'
           size={4}
           shape='circle'
           color={colors.length ? ['key', colors] : 'key'}
         />
-        {areas ? 
-          <Geom 
+        {areas ?
+          <Geom
             type='area'
             position='x*value'
             color={colors.length ? ['key', colors] : 'key'}
-          /> : 
+          /> :
           ''
         }
       </Chart>
     </div>
   )
-}
+};
 
 RadarChart.defaultProps = {
   height: 400,
