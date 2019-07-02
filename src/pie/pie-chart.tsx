@@ -214,6 +214,9 @@ const PieChart: React.FC<IPieProps> = (props) => {
           <div
             className={`${prefixCls}__content`}
             style={{
+              marginTop: (legend && legend.visible)
+                ? -innerWidth * 0.1
+                : 0,
               width: innerWidth,
               height: +innerWidth,
               padding: innerWidth * 0.2
