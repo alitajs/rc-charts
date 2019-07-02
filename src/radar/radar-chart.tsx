@@ -83,7 +83,7 @@ const RadarChart: React.FC<IRadarChartProps> = (props) => {
             const newRow = { ...row };
             newKeys.forEach(item => {
               newRow[titleMap[item]] = row[item];
-            })
+            });
             return newRow;
           }
         })

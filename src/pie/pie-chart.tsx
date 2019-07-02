@@ -7,7 +7,8 @@ import {
   Geom,
   Coord,
   Label,
-  LabelProps
+  LabelProps,
+  LegendProps, Legend
 } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
@@ -39,10 +40,15 @@ export interface IPieProps {
   total?: React.ReactNode | number | (() => React.ReactNode | number);
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
+  // 图例配置
+  legend?: LegendProps;
   // 是否显示Label
   showLabel?: boolean;
   // 标注文本
   label?: LabelProps;
+  titleMap?: {
+    [key: string]: any;
+  };
   // 是否显示tooltip
   tooltip?: boolean;
   // 设置半径，[0-1]的小数
@@ -68,6 +74,16 @@ const scale = {
   },
 };
 
+const defaultScale = {
+  x: {
+    type: 'cat',
+    range: [0, 1],
+  },
+  y: {
+    min: 0,
+  }
+};
+
 const PieChart: React.FC<IPieProps> = (props) => {
   const {
     className,
@@ -86,6 +102,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
     showLabel,
     total,
     radius,
+    legend,
     innerRadius,
     lineWidth,
     onGetG2Instance
@@ -144,6 +161,8 @@ const PieChart: React.FC<IPieProps> = (props) => {
     as: 'percent',
   });
 
+  const cols = Object.assign({}, defaultScale, scale);
+
   return (
     <div
       className={classNames(className, {
@@ -153,7 +172,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
     >
       <div className={`${prefixCls}__chart`}>
         <Chart
-          scale={type === 'theta' ? scale : undefined}
+          scale={type === 'theta' ? cols : undefined}
           height={height}
           forceFit={forceFit}
           data={dv}
@@ -169,6 +188,10 @@ const PieChart: React.FC<IPieProps> = (props) => {
             radius={radius}
             innerRadius={innerRadius}
           />
+
+          {/** 图例 */}
+          <Legend {...legend}/>
+
           <Geom
             style={{ lineWidth, stroke: '#fff' }}
             tooltip={tooltip ? tooltipFormat : undefined}
@@ -221,6 +244,9 @@ PieChart.defaultProps = {
   radius: 1,
   innerRadius: 0,
   lineWidth: 1,
+  legend: {
+    visible: false
+  },
   data: [],
   padding: 'auto'
 };

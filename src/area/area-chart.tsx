@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
 import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
 import { TPadding } from '@/global';
+import './area-chart.less';
 
 export interface IDataItem {
   x: any;
@@ -12,6 +13,7 @@ export interface IDataItem {
 
 export interface IAreaProps {
   className?: string;
+  title?: string | React.ReactNode;
   style?: React.CSSProperties;
   colors?: string[];
   height?: number;
@@ -45,6 +47,7 @@ const prefixCls = 'rc-area-chart';
 const AreaChart: React.FC<IAreaProps> = (props) => {
   const {
     className,
+    title,
     isStack,
     style,
     animate,
@@ -105,6 +108,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       })}
       style={style}
     >
+      {title && (<h4>{title}</h4>)}
       <Chart
         height={height}
         data={chartData}
