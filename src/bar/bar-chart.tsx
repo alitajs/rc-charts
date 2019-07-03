@@ -18,8 +18,8 @@ import { TPadding } from '@/global';
 const prefixCls = 'rc-bar-chart';
 
 export interface IDataItem {
-  x: any;
-  [key: string]: number;
+  x: string | number;
+  [key: string]: string | number;
 }
 
 export interface IBarProps {
