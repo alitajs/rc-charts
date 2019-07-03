@@ -26,7 +26,7 @@ export interface IPieProps {
   className?: string;
   style?: React.CSSProperties;
   //
-  type: 'polar' | 'theta';
+  type?: 'polar' | 'theta';
   // 图表动画开关，默认为 true
   animate?: boolean;
   color?: string;
@@ -219,7 +219,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
                 : 0,
               width: innerWidth,
               height: +innerWidth,
-              padding: innerWidth * 0.2
+              padding: innerWidth * 0.1
             }}
           >
             <div>
