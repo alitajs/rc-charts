@@ -32,6 +32,7 @@ export interface IBarProps {
   // 层叠 或 分组柱状图 颜色
   colors?: string[];
   title?: string | React.ReactNode;
+  titlePosition?: 'left' | 'center' | 'right';
   titleMap?: {
     [key: string]: any;
   };
@@ -61,6 +62,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
     scale,
     style,
     title,
+    titlePosition,
     height,
     xAxis,
     yAxis,
@@ -116,7 +118,18 @@ const BarChart: React.FC<IBarProps> = (props) => {
       })}
       style={style}
     >
-      {title && (<h4>{title}</h4>)}
+      {title && (
+        <div
+          className={classNames(
+            `${prefixCls}__title`
+          )}
+          style={{
+            textAlign: titlePosition
+          }}
+        >
+          <h4>{title}</h4>
+        </div>
+      )}
       <Chart
         height={height}
         padding={padding}
@@ -154,6 +167,7 @@ BarChart.defaultProps = {
   height: 400,
   type: 'interval',
   direction: 'vertical',
+  titlePosition: 'left',
   titleMap: {},
   showLabel: false
 };
