@@ -14,8 +14,8 @@ import { TPadding } from '@/global';
 import './area-chart.less';
 
 export interface IDataItem {
-  x: any;
-  [key: string]: number;
+  x: number | string;
+  [key: string]: number | string;
 }
 
 export interface IAreaProps {
@@ -35,7 +35,7 @@ export interface IAreaProps {
   // 是否开启自适应
   forceFit?: boolean;
   scale?: any;
-  isStack: boolean;
+  isStack?: boolean;
   // 图例配置
   legend?: LegendProps;
   yAxis?: Partial<AxisProps>;
@@ -46,7 +46,7 @@ export interface IAreaProps {
   };
   // 是否平滑
   // 默认为false
-  smooth: boolean;
+  smooth?: boolean;
 }
 
 const prefixCls = 'rc-area-chart';
