@@ -15,10 +15,6 @@ import FitText from 'rc-fit-text';
 import { TPadding } from '@/global';
 import './pie-chart.less';
 
-let chartInstance: G2.Chart = null;
-let requestRef = null;
-const prefixCls = 'rc-pie-chart';
-
 export interface IDataItem {
   x: string;
   y: number;
@@ -98,6 +94,9 @@ const defaultScale = {
 };
 
 const PieChart: React.FC<IPieProps> = (props) => {
+  let chartInstance: G2.Chart = null;
+  let requestRef = null;
+  const prefixCls = 'rc-pie-chart';
   const rootRef = React.useRef(null);
   const {
     className,

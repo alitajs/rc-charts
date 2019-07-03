@@ -46,15 +46,35 @@ import Pie from '@charts/pie';
 <Playground>
   <Pie
     data={[
-      { x: 'chrome', y: 100 },
-      { x: 'IE', y: 30 },
-      { x: 'Firefox', y: 50 }
+      { x: '真实预警', y: 1 },
+      { x: '安全隐患', y: 23 },
+      { x: '测试/巡检', y: 15 },
+      { x: '误报', y: 6 },
+      { x: '未确认', y: 2 }
     ]}
+    colors={['#F35A58', '#F7CF5F', '#37B0E9', '#6D5EAC', '#DFDFDF']}
     tooltip={true}
-    innerRadius={0.75}
-    subTitle="总预警数"
-    total={100}
+    subTitle="预警总数"
+    total={235}
     height={300}
+    innerRadius={0.75}
+    hasLegend={true}
+  />
+
+  <Pie
+    data={[
+      { x: '正常', y: 3569 },
+      { x: '预警', y: 1 },
+      { x: '故障', y: 26 },
+      { x: '失联', y: 19 },
+      { x: '未激活', y: 26 }
+    ]}
+    colors={['#F35A58', '#F7CF5F', '#37B0E9', '#6D5EAC', '#DFDFDF']}
+    tooltip={true}
+    subTitle="预警总数"
+    total={235}
+    height={300}
+    innerRadius={0.75}
     hasLegend={true}
   />
 </Playground>
