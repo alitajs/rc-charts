@@ -169,7 +169,8 @@ BarChart.defaultProps = {
   direction: 'vertical',
   titlePosition: 'left',
   titleMap: {},
-  showLabel: false
+  showLabel: false,
+  padding: 'auto'
 };
 
 export default BarChart;
