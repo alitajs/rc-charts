@@ -115,9 +115,9 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
       dv.source(newData)
         .transform({
           type: 'bin.quantile',
-          field: "value",
-          as: "bin",
-          groupBy: ["x", "key"]
+          field: 'value',
+          as: 'bin',
+          groupBy: ['x', 'key']
         });
       setChartData(dv);
     }
@@ -147,15 +147,15 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
           position="key*bin"
           size={borderWidth}
           color={[
-            "x",
+            'x',
             val => {
               return colorMap[val];
             }
           ]}
           style={[
-            "x",
+            'x',
             {
-              stroke: "rgba(0, 0, 0, 0.45)",
+              stroke: 'rgba(0, 0, 0, 0.45)',
               fill: val => {
                 return colorMap[val];
               },

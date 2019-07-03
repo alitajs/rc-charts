@@ -109,8 +109,6 @@ const BarChart: React.FC<IBarProps> = (props) => {
     }
   }, [props.data]);
 
-  const defaultColors = colors;
-
   return (
     <div
       className={classNames(className, {
@@ -139,7 +137,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
           type={type}
           position="x*value"
           color={
-            ['x', defaultColors]
+            ['x', colors]
           }
           size={borderWidth ? borderWidth : undefined}
         >

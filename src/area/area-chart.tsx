@@ -2,7 +2,14 @@ import React from 'react';
 import { isArray } from 'awe-utils';
 import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
-import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
+import {
+  Axis,
+  Chart,
+  Geom,
+  AxisProps,
+  Legend,
+  LegendProps
+} from 'bizcharts';
 import { TPadding } from '@/global';
 import './area-chart.less';
 
