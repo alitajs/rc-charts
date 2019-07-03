@@ -15,11 +15,21 @@ import FitText from 'rc-fit-text';
 import { TPadding } from '@/global';
 import './pie-chart.less';
 
+let chartInstance: G2.Chart = null;
+let requestRef = null;
 const prefixCls = 'rc-pie-chart';
 
 export interface IDataItem {
   x: string;
   y: number;
+}
+
+interface ILegendDataItem {
+  x: string;
+  y: string;
+  checked: boolean;
+  color: string;
+  percent: number;
 }
 
 export interface IPieProps {
@@ -46,6 +56,9 @@ export interface IPieProps {
   showLabel?: boolean;
   // 标注文本
   label?: LabelProps;
+  // 详细图例显示开关
+  hasLegend?: boolean;
+  valueFormat?: (value: string) => string | React.ReactNode;
   titleMap?: {
     [key: string]: any;
   };
@@ -85,6 +98,7 @@ const defaultScale = {
 };
 
 const PieChart: React.FC<IPieProps> = (props) => {
+  const rootRef = React.useRef(null);
   const {
     className,
     style,
@@ -98,6 +112,8 @@ const PieChart: React.FC<IPieProps> = (props) => {
     colors,
     title,
     subTitle,
+    hasLegend,
+    valueFormat,
     label,
     showLabel,
     total,
@@ -108,8 +124,77 @@ const PieChart: React.FC<IPieProps> = (props) => {
     onGetG2Instance
   } = props;
   const [innerWidth, setInnerWidth] = React.useState<number>(0);
+  const [legendBlock, setLegendBlock] = React.useState<boolean>(false);
+  const [legendData, setLegendData] = React.useState<ILegendDataItem[]>([]);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', () => {
+      requestRef = requestAnimationFrame(() => resize());
+    }, { passive: true })
+  }, []);
+
+  React.useEffect(() => {
+    getLegendData();
+  }, [props.data]);
+
+  // 用于自定义图例
+  const getLegendData = () => {
+    if (!chartInstance) return;
+    const geom = chartInstance.getAllGeoms()[0];
+    if (!geom) return;
+    // @ts-ignore
+    const items = geom.get('dataArray') || [];
+
+    const data = items.map((item: { color: any; _origin: any }[]) => {
+      const origin = item[0]._origin;
+      origin.color = item[0].color;
+      origin.checked = true;
+      return origin;
+    });
+
+    setLegendData(data);
+  };
+
+  const handleLegendClick = (item: any, i: string | number) => {
+    const newItem = item;
+    newItem.checked = !newItem.checked;
+    const newLegendData = [...legendData];
+    newLegendData[i] = newItem;
+
+    const filteredLegendData = newLegendData.filter(l => l.checked).map(l => l.x);
+
+    if (chartInstance) {
+      chartInstance.filter('x', val => filteredLegendData.indexOf(val + '') > -1);
+    }
+
+    setLegendData(newLegendData);
+  };
+
+  const resize = () => {
+    const root: HTMLDivElement = rootRef.current;
+
+    if (!hasLegend || !root) {
+      window.removeEventListener('resize', resize);
+      return;
+    }
+
+    if (
+      root &&
+      root.parentNode &&
+      (root.parentNode as HTMLElement).clientWidth <= 380
+    ) {
+      if (!legendBlock) {
+        setLegendBlock(true);
+      }
+    } else {
+      setLegendBlock(false);
+    }
+  };
+
+
 
   const handleGetG2Instance = (chart: G2.Chart) => {
+    chartInstance = chart;
     setInnerWidth(chart.get('height') * innerRadius);
     onGetG2Instance && onGetG2Instance(chart);
   };
@@ -166,8 +251,11 @@ const PieChart: React.FC<IPieProps> = (props) => {
   return (
     <div
       className={classNames(className, {
-        [`${prefixCls}`]: true
+        [`${prefixCls}`]: true,
+        [`show-legend`]: !!hasLegend,
+        ['legend-block']: legendBlock
       })}
+      ref={rootRef}
       style={style}
     >
       <div className={`${prefixCls}__chart`}>
@@ -234,6 +322,32 @@ const PieChart: React.FC<IPieProps> = (props) => {
           </div>
         </FitText>
       </div>
+
+      {hasLegend && (
+        <ul className={`${prefixCls}__legend`}>
+          {legendData.map((item, i) => (
+            <li key={item.x} onClick={() => handleLegendClick(item, i)}>
+              <div className="title">
+                <span
+                  className="dot"
+                  style={{
+                    backgroundColor: !item.checked ? '#aaa' : item.color,
+                  }}
+                />
+                <span>{item.x}</span>
+              </div>
+              <div className="value">
+                <span className="value">{valueFormat ? valueFormat(item.y) : item.y}</span>
+              </div>
+              <div className="percent">
+                <span className="percent">
+                  {`${(Number.isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 };
@@ -242,6 +356,7 @@ PieChart.defaultProps = {
   type: 'theta',
   animate: true,
   forceFit: true,
+  hasLegend: false,
   showLabel: false,
   height: 400,
   radius: 1,

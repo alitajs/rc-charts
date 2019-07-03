@@ -41,6 +41,24 @@ import Pie from '@charts/pie';
   />
 </Playground>
 
+## 显示详细图例
+
+<Playground>
+  <Pie
+    data={[
+      { x: 'chrome', y: 100 },
+      { x: 'IE', y: 30 },
+      { x: 'Firefox', y: 50 }
+    ]}
+    tooltip={true}
+    innerRadius={0.75}
+    subTitle="总预警数"
+    total={100}
+    height={300}
+    hasLegend={true}
+  />
+</Playground>
+
 ## 自定义
 
 <Playground>

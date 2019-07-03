@@ -9,6 +9,64 @@
     position: relative;
   }
 
+  &.show-legend &__chart {
+    width: 60%;
+  }
+
+  &__legend {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 40%;
+    margin-left: 15px;
+    padding: 0;
+    list-style: none;
+    transform: translateY(-50%);
+
+    li {
+      position: relative;
+      display: flex;
+      height: 22px;
+      padding: 12px 0;
+      margin-bottom: 16px;
+      line-height: 22px;
+      border-bottom: 1px solid #dfdfdf;
+      cursor: pointer;
+      align-items: center;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      > div {
+        width: 33%;
+      }
+    }
+
+    .dot {
+      position: relative;
+      top: -1px;
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      border-radius: 8px;
+    }
+
+    .title {
+      color: @text-color;
+    }
+
+    .percent {
+      text-align: right;
+      color: @text-color-secondary;
+    }
+
+    .value {
+      text-align: right;
+    }
+  }
+
   &__content {
     position: absolute;
     display: flex;
