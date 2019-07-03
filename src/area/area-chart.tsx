@@ -74,8 +74,13 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     data: sourceData
   } = props;
   const [chartData, setChartData] = React.useState(null);
+  const [cols, setCols] = React.useState({});
 
   const data = isArray(sourceData) ? sourceData : [];
+
+  React.useEffect(() => {
+    setCols(scale);
+  }, [props.scale]);
 
   React.useEffect(() => {
     if (isArray(data)) {
@@ -119,7 +124,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       <Chart
         height={height}
         data={chartData}
-        scale={scale}
+        scale={cols}
         padding={padding}
         animate={animate}
         forceFit={forceFit}
