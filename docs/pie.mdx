@@ -41,6 +41,23 @@ import Pie from '@charts/pie';
   />
 </Playground>
 
+## 基础环图 - 自动计算总数
+
+<Playground>
+  <Pie
+    data={[
+      { x: 'chrome', y: 20 },
+      { x: 'IE', y: 20 },
+      { x: 'Firefox', y: 20 }
+    ]}
+    tooltip={true}
+    innerRadius={0.75}
+    subTitle="总预警数"
+    autoTotal={true}
+    height={300}
+  />
+</Playground>
+
 ## 显示详细图例
 
 <Playground>

@@ -44,6 +44,8 @@ export interface IPieProps {
   padding?: TPadding;
   data: IDataItem[];
   total?: React.ReactNode | number | (() => React.ReactNode | number);
+  // 是否开启自动计算总数
+  autoTotal?: boolean;
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
   // 图例配置
@@ -116,6 +118,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
     label,
     showLabel,
     total,
+    autoTotal,
     radius,
     legend,
     innerRadius,
@@ -125,12 +128,27 @@ const PieChart: React.FC<IPieProps> = (props) => {
   const [innerWidth, setInnerWidth] = React.useState<number>(0);
   const [legendBlock, setLegendBlock] = React.useState<boolean>(false);
   const [legendData, setLegendData] = React.useState<ILegendDataItem[]>([]);
+  const [totalNumber, setTotalNumber] = React.useState<number>(0);
 
   React.useEffect(() => {
     window.addEventListener('resize', () => {
       requestRef = requestAnimationFrame(() => resize());
     }, { passive: true })
   }, []);
+
+  React.useEffect(() => {
+    let newTotal = 0;
+    if (autoTotal) {
+      data.forEach(item => {
+        if (item.y) {
+          newTotal += item.y;
+        }
+      })
+    } else {
+      newTotal = typeof total === 'function' ? total() : total
+    }
+    setTotalNumber(newTotal);
+  }, [props.total, props.autoTotal, props.data]);
 
   React.useEffect(() => {
     getLegendData();
@@ -189,8 +207,6 @@ const PieChart: React.FC<IPieProps> = (props) => {
       setLegendBlock(false);
     }
   };
-
-
 
   const handleGetG2Instance = (chart: G2.Chart) => {
     chartInstance = chart;
@@ -313,8 +329,8 @@ const PieChart: React.FC<IPieProps> = (props) => {
               {title && (
                 <h4>{title}</h4>
               )}
-              {total && (
-                <p>{typeof total === 'function' ? total() : total}</p>
+              {(total || autoTotal) && (
+                <p>{totalNumber}</p>
               )}
               {subTitle && <h5>{subTitle}</h5>}
             </div>
@@ -365,7 +381,8 @@ PieChart.defaultProps = {
     visible: false
   },
   data: [],
-  padding: 'auto'
+  padding: 'auto',
+  autoTotal: false
 };
 
 export default PieChart;
