@@ -13,7 +13,7 @@ import {
   LegendProps
 } from 'bizcharts';
 import { TPadding } from '@/global';
-import Title from '../components/title';
+import Title, { TPosition } from '../components/title';
 import './area-chart.less';
 
 export interface IDataItem {
@@ -24,7 +24,7 @@ export interface IDataItem {
 export interface IAreaProps {
   className?: string;
   title?: string;
-  titlePosition?: 'left' | 'center' | 'right';
+  titlePosition?: TPosition;
   style?: React.CSSProperties;
   colors?: string[];
   height?: number;

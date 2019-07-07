@@ -117,7 +117,7 @@ const LineChart: React.FC<ILineChartProps> = (props) => {
           position="x*value"
           size={borderWidth}
           color={
-            colors ? ['x', colors] : 'key'
+            colors ? ['key', colors] : 'key'
           }
           shape={smooth ? 'smooth' : ''}
         />
