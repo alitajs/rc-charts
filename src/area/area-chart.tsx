@@ -11,6 +11,7 @@ import {
   LegendProps
 } from 'bizcharts';
 import { TPadding } from '@/global';
+import Title from '../components/title';
 import './area-chart.less';
 
 export interface IDataItem {
@@ -20,7 +21,8 @@ export interface IDataItem {
 
 export interface IAreaProps {
   className?: string;
-  title?: string | React.ReactNode;
+  title?: string;
+  titlePosition?: 'left' | 'center' | 'right';
   style?: React.CSSProperties;
   colors?: string[];
   height?: number;
@@ -44,6 +46,7 @@ export interface IAreaProps {
   titleMap?: {
     [key: string]: any;
   };
+  mini?: boolean;
   // 是否平滑
   // 默认为false
   smooth?: boolean;
@@ -55,6 +58,7 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
   const {
     className,
     title,
+    titlePosition,
     isStack,
     style,
     animate,
@@ -120,7 +124,12 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       })}
       style={style}
     >
-      {title && (<h4>{title}</h4>)}
+      {/** 图表标题 */}
+      <Title
+        position={titlePosition}
+        text={title}
+      />
+
       <Chart
         height={height}
         data={chartData}
@@ -188,6 +197,7 @@ AreaChart.defaultProps = {
   titleMap: {},
   data: [],
   isStack: false,
+  mini: false,
   padding: 'auto'
 };
 
