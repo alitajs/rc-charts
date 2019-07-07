@@ -6,6 +6,8 @@ import {
   Axis,
   Chart,
   Geom,
+  Tooltip,
+  TooltipProps,
   AxisProps,
   Legend,
   LegendProps
@@ -38,6 +40,7 @@ export interface IAreaProps {
   forceFit?: boolean;
   scale?: any;
   isStack?: boolean;
+  tooltip?: TooltipProps;
   // 图例配置
   legend?: LegendProps;
   yAxis?: Partial<AxisProps>;
@@ -71,8 +74,10 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     colors,
     line,
     point,
+    tooltip,
     titleMap,
     smooth,
+    mini,
     padding,
     borderWidth,
     data: sourceData
@@ -139,13 +144,21 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
         forceFit={forceFit}
       >
         {/** x轴 */}
-        <Axis name="x" title {...xAxis} />
+        {!mini && (
+          <Axis name="x" title {...xAxis}  />
+        )}
 
         {/** y轴 */}
-        <Axis name="value" title {...yAxis} />
+        {!mini && (
+          <Axis name="value" title {...yAxis} />
+        )}
 
         {/** 图例 */}
-        <Legend {...legend}/>
+        {!mini && (
+          <Legend {...legend}/>
+        )}
+
+        <Tooltip {...tooltip}/>
 
         <Geom
           type={isStack ? 'areaStack' : 'area'}
