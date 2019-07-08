@@ -29,6 +29,28 @@ import Bar from '@charts/bar';
   />
 </Playground>
 
+## 基础柱状图 - 均值线
+
+<Playground>
+  <Bar
+    data={
+      [
+        { x: '1951', y1: 20 },
+        { x: '1952', y1: 10 },
+        { x: '1953', y1: 20 },
+        { x: '1954', y1: 100 },
+        { x: '1955', y1: 10 },
+        { x: '1956', y1: 50 }
+      ]
+    }
+    meanLine={{
+    }}
+    titleMap={{
+      y1: '销售额'
+    }}
+  />
+</Playground>
+
 ## 基础柱状图 mini
 
 > ant-design-pro 示例

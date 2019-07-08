@@ -10,13 +10,15 @@ import {
   Axis,
   Coord,
   Label,
+  Guide,
   AxisProps,
   LabelProps,
   LegendProps,
   TooltipProps
 } from 'bizcharts';
 import Title, { TPosition } from '../components/title';
-import { TPadding } from '@/global';
+import { TPadding, ILineProps } from '@/global';
+import { sum } from '../utils/utils';
 
 const prefixCls = 'rc-bar-chart';
 
@@ -41,6 +43,8 @@ export interface IBarProps {
   };
   scale?: any;
   tooltip?: TooltipProps;
+  // 均值线配置
+  meanLine?: ILineProps;
   // 是否显示Label
   showLabel?: boolean;
   label?: LabelProps;
@@ -62,6 +66,8 @@ export interface IBarProps {
   legendPosition?: string;
 }
 
+const { Line } = Guide;
+
 const BarChart: React.FC<IBarProps> = (props) => {
   const {
     className,
@@ -77,6 +83,7 @@ const BarChart: React.FC<IBarProps> = (props) => {
     colors,
     label,
     tooltip,
+    meanLine,
     showLabel,
     legend,
     padding,
@@ -86,6 +93,11 @@ const BarChart: React.FC<IBarProps> = (props) => {
     data: sourceData,
   } = props;
   const [chartData, setChartData] = React.useState(null);
+  // 均值存储
+  const [means, setMeans] = React.useState<{
+    value: number,
+    text: string,
+  }[]>([]);
 
   const data = isArray(sourceData) ? sourceData : [];
 
@@ -97,6 +109,20 @@ const BarChart: React.FC<IBarProps> = (props) => {
 
       const newKeys = Object.keys(item).filter(item => item !== 'x');
 
+      if (meanLine) {
+        // 计算均值
+        const means = newKeys.map(key => {
+          const numbers = data.map((item, index) => data[index][key]);
+          return {
+            value: (sum(numbers as any) / numbers.length).toFixed(0),
+            text: titleMap[key] || key
+          };
+        });
+
+        setMeans(means as any);
+      }
+
+      // 组织图表数据
       const dv = new DataView();
       dv.source(data)
         .transform({
@@ -118,7 +144,52 @@ const BarChart: React.FC<IBarProps> = (props) => {
 
       setChartData(dv);
     }
-  }, [props.data]);
+  }, [props.data, props.meanLine]);
+
+  const renderMeanLine = () => {
+    if (meanLine && means.length) {
+      return (
+        <Guide>
+          {means.map((item, index) => {
+            const start = ['start', item.value];
+            const end = ['end', item.value];
+
+            return (
+              <Line
+                top={true}
+                key={index}
+                start={start}
+                end={end}
+                lineStyle={{
+                  stroke: '#595959',
+                  lineWidth: 1,
+                  lineDash: [3, 3]
+                }}
+                text={{
+                  position: 'start',
+                  style: {
+                    fill: '#595959',
+                    fontSize: 12,
+                    fontWeight: 300
+                  },
+                  content: `${means.length === 1 ? '' : item.text}均值线`
+                }}
+                {...meanLine}
+              />
+            )
+          })}
+        </Guide>
+      )
+    } else {
+      return null;
+    }
+  };
+
+  const meanLineMemo = React.useMemo(() => {
+    return renderMeanLine();
+  }, [props.meanLine, props.data, means]);
+
+  console.log(meanLineMemo);
 
   return (
     <div
@@ -150,9 +221,13 @@ const BarChart: React.FC<IBarProps> = (props) => {
           <Axis key="axis-y" name="value" { ...yAxis } />
         )}
 
+        {/** 图例 */}
         {!mini && (
           <Legend name="key" position="top" {...legend} />
         )}
+
+        {/** 均值线 */}
+        {meanLineMemo}
 
         <Coord transpose={direction === 'horizontal'} />
 
