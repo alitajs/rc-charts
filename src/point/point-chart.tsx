@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord, Axis, Legend, LegendProps, AxisProps, View, TooltipProps } from 'bizcharts';
+import { Chart, Tooltip, Geom, Axis, Legend, LegendProps, AxisProps, TooltipProps } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import { isArray } from 'awe-utils';
 import { TPadding } from '../global';
@@ -66,8 +66,9 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
   let xFlag = false;
   if(isArray(data)) {
     const item = data[0];
-    if(!item) return;
-    typeof(item[`x`]) === 'string' ? xFlag = true : xFlag = false;
+    if (item) {
+      typeof(item[`x`]) === 'string' ? xFlag = true : xFlag = false;
+    }
   }
 
   // scale cols
@@ -113,7 +114,7 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
         scale={cols}
         forceFit
       >
-        <Tooltip 
+        <Tooltip
           showTitle={showTitle}
           crosshairs={{
             type: "cross"
@@ -133,11 +134,11 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
           size={pointSize}
           adjust="jitter"
           tooltip={[
-            "x*y*type", 
+            "x*y*type",
             (x, y, type) => {
               return {
-                name: type, 
-                value: xFlag ? x+' : '+y+units[`y`] : titleMap[`x`]+': '+x+units[`x`]+' ,'+titleMap[`y`]+': '+y+units[`y`], 
+                name: type,
+                value: xFlag ? x+' : '+y+units[`y`] : titleMap[`x`]+': '+x+units[`x`]+' ,'+titleMap[`y`]+': '+y+units[`y`],
               }
             }
           ]}
@@ -145,7 +146,7 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
       </Chart>
     </div>
   )
-}
+};
 
 PointChart.defaultProps = {
   height: 400,
@@ -154,7 +155,7 @@ PointChart.defaultProps = {
   showTitle: false,
   shapes: ['circle'],
   valueSection: {},
-}
+};
 
 export default PointChart;
 
