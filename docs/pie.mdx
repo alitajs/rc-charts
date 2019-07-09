@@ -1,7 +1,9 @@
 ---
 route: /pie
 name: 'Pie'
+menu: Components
 ---
+
 import { Playground, Props } from 'docz';
 import Pie from '@charts/pie';
 
@@ -28,13 +30,11 @@ import Pie from '@charts/pie';
 
 <Playground>
   <Pie
-    data={
-      [
-        { x: 'chrome', y: 20 },
-        { x: 'IE', y: 20 },
-        { x: 'Firefox', y: 20 }
-      ]
-    }
+    data={[
+      { x: 'chrome', y: 20 },
+      { x: 'IE', y: 20 },
+      { x: 'Firefox', y: 20 }
+    ]}
     tooltip={true}
     innerRadius={0.75}
     subTitle="总预警数"
@@ -42,6 +42,84 @@ import Pie from '@charts/pie';
     height={300}
   />
 </Playground>
+
+## 基础环图 - 自动计算总数
+
+<Playground>
+  <Pie
+    data={[
+      { x: 'chrome', y: 20 },
+      { x: 'IE', y: 20 },
+      { x: 'Firefox', y: 20 }
+    ]}
+    tooltip={true}
+    innerRadius={0.75}
+    subTitle="总预警数"
+    autoTotal={true}
+    height={300}
+  />
+</Playground>
+
+## 显示详细图例
+
+<Playground>
+  <Pie
+    data={[
+      { x: '真实预警', y: 1 },
+      { x: '安全隐患', y: 23 },
+      { x: '测试/巡检', y: 15 },
+      { x: '误报', y: 6 },
+      { x: '未确认', y: 2 }
+    ]}
+    colors={['#F35A58', '#F7CF5F', '#37B0E9', '#6D5EAC', '#DFDFDF']}
+    tooltip={true}
+    subTitle="预警总数"
+    total={235}
+    height={300}
+    innerRadius={0.75}
+    hasLegend={true}
+  />
+
+  <Pie
+    data={[
+      { x: '正常', y: 3569 },
+      { x: '预警', y: 1 },
+      { x: '故障', y: 26 },
+      { x: '失联', y: 19 },
+      { x: '未激活', y: 26 }
+    ]}
+    colors={['#F35A58', '#F7CF5F', '#37B0E9', '#6D5EAC', '#DFDFDF']}
+    tooltip={true}
+    subTitle="预警总数"
+    total={235}
+    height={300}
+    innerRadius={0.75}
+    hasLegend={true}
+  />
+</Playground>
+
+## 自定义
+
+<Playground>
+  <Pie
+    data={
+      [
+        { x: '常住', y: 4990 },
+        { x: '外来', y: 110 }
+      ]
+    }
+    innerRadius={0.75}
+    total={5100}
+    legend={{
+      visible: true
+    }}
+    subTitle="出入总人数"
+    colors={['#6D5EAC', '#DFDFDF', '#F35A58']}
+    tooltip={true}
+    height={300}
+  />
+</Playground>
+
 
 ## 自定义颜色
 

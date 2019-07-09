@@ -1,9 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
-import { G2, Chart, Tooltip, Geom, Coord, Axis, Legend, LegendProps, AxisProps, View, TooltipProps } from 'bizcharts';
+import {
+  Chart,
+  Tooltip,
+  Geom,
+  Axis,
+  Legend,
+  LegendProps,
+  AxisProps,
+  View,
+  TooltipProps
+} from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import { isArray } from 'awe-utils';
-import { TPadding } from '../global';
+import { TPadding } from '@/global';
 
 const prefixCls = 'rc-line-chart';
 
@@ -57,7 +67,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
       outliersFlag = true;
     }
     return index;
-  })
+  });
 
   // 颜色区间
   let colorMap = {};
@@ -66,7 +76,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
       colorMap[item[`x`]] = colors[Object.keys(colorMap).length];
     }
     return index;
-  })
+  });
 
   // scale sols
   let cols = {};
@@ -74,7 +84,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
     cols[`bin`] = {
       min: valueSection[0],
       max: valueSection[1],
-    }
+    };
     cols[`outliers`] = {
       min: valueSection[0],
       max: valueSection[1],
@@ -98,17 +108,17 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
           newRow[`key`] = row[`key`];
           newRow[`value`] = row[item];
           newData.push(newRow);
-        })
+        });
         return index;
       });
       const dv = new DataView();
       dv.source(newData)
         .transform({
           type: 'bin.quantile',
-          field: "value",
-          as: "bin",
-          groupBy: ["x", "key"]
-        })
+          field: 'value',
+          as: 'bin',
+          groupBy: ['x', 'key']
+        });
       setChartData(dv);
     }
   }, [props.data]);
@@ -137,15 +147,15 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
           position="key*bin"
           size={borderWidth}
           color={[
-            "x",
+            'x',
             val => {
               return colorMap[val];
             }
           ]}
           style={[
-            "x",
+            'x',
             {
-              stroke: "rgba(0, 0, 0, 0.45)",
+              stroke: 'rgba(0, 0, 0, 0.45)',
               fill: val => {
                 return colorMap[val];
               },
@@ -155,7 +165,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
           shape="box"
           adjust="dodge"
         />
-        {outliersFlag ? 
+        {outliersFlag ?
           <View data={data}>
             <Geom
               type='point'
@@ -164,7 +174,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
               color={['x', outlierColor]}
               size={3}
               active={false}
-              adjust="dodge"  
+              adjust="dodge"
             />
           </View> : ''
         }
@@ -172,7 +182,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
 
     </div>
   )
-}
+};
 
 BoxChart.defaultProps = {
   data: [],
@@ -186,6 +196,6 @@ BoxChart.defaultProps = {
   legend: {},
   tooltip: {},
   padding: 'auto',
-}
+};
 
 export default BoxChart;

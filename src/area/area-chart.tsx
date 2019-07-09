@@ -2,16 +2,29 @@ import React from 'react';
 import { isArray } from 'awe-utils';
 import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
-import { Axis, Chart, Geom, AxisProps, Legend, LegendProps } from 'bizcharts';
+import {
+  Axis,
+  Chart,
+  Geom,
+  Tooltip,
+  TooltipProps,
+  AxisProps,
+  Legend,
+  LegendProps
+} from 'bizcharts';
 import { TPadding } from '@/global';
+import Title, { TPosition } from '../components/title';
+import './area-chart.less';
 
 export interface IDataItem {
-  x: any;
-  [key: string]: number;
+  x: number | string;
+  [key: string]: number | string;
 }
 
 export interface IAreaProps {
   className?: string;
+  title?: string;
+  titlePosition?: TPosition;
   style?: React.CSSProperties;
   colors?: string[];
   height?: number;
@@ -26,7 +39,8 @@ export interface IAreaProps {
   // 是否开启自适应
   forceFit?: boolean;
   scale?: any;
-  isStack: boolean;
+  isStack?: boolean;
+  tooltip?: TooltipProps;
   // 图例配置
   legend?: LegendProps;
   yAxis?: Partial<AxisProps>;
@@ -35,9 +49,10 @@ export interface IAreaProps {
   titleMap?: {
     [key: string]: any;
   };
+  mini?: boolean;
   // 是否平滑
   // 默认为false
-  smooth: boolean;
+  smooth?: boolean;
 }
 
 const prefixCls = 'rc-area-chart';
@@ -45,6 +60,8 @@ const prefixCls = 'rc-area-chart';
 const AreaChart: React.FC<IAreaProps> = (props) => {
   const {
     className,
+    title,
+    titlePosition,
     isStack,
     style,
     animate,
@@ -57,15 +74,22 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
     colors,
     line,
     point,
+    tooltip,
     titleMap,
     smooth,
+    mini,
     padding,
     borderWidth,
     data: sourceData
   } = props;
   const [chartData, setChartData] = React.useState(null);
+  const [cols, setCols] = React.useState({});
 
   const data = isArray(sourceData) ? sourceData : [];
+
+  React.useEffect(() => {
+    setCols(scale);
+  }, [props.scale]);
 
   React.useEffect(() => {
     if (isArray(data)) {
@@ -105,22 +129,36 @@ const AreaChart: React.FC<IAreaProps> = (props) => {
       })}
       style={style}
     >
+      {/** 图表标题 */}
+      <Title
+        position={titlePosition}
+        text={title}
+      />
+
       <Chart
         height={height}
         data={chartData}
-        scale={scale}
+        scale={cols}
         padding={padding}
         animate={animate}
         forceFit={forceFit}
       >
         {/** x轴 */}
-        <Axis name="x" title {...xAxis} />
+        {!mini && (
+          <Axis name="x" title {...xAxis}  />
+        )}
 
         {/** y轴 */}
-        <Axis name="value" title {...yAxis} />
+        {!mini && (
+          <Axis name="value" title {...yAxis} />
+        )}
 
         {/** 图例 */}
-        <Legend {...legend}/>
+        {!mini && (
+          <Legend {...legend}/>
+        )}
+
+        <Tooltip {...tooltip}/>
 
         <Geom
           type={isStack ? 'areaStack' : 'area'}
@@ -172,6 +210,7 @@ AreaChart.defaultProps = {
   titleMap: {},
   data: [],
   isStack: false,
+  mini: false,
   padding: 'auto'
 };
 

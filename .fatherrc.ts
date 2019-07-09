@@ -3,20 +3,23 @@ import path from 'path';
 
 const env = process.env.NODE_ENV;
 
-// @ts-ignore
 const options: IBundleOptions = {
-  esm: {
-    type: 'rollup',
-    importLibToEs: true
-  },
+  esm: 'rollup',
   cjs: 'rollup',
   extraBabelPlugins: [
-    ['import', { libraryName: 'antd', style: true }]
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
   ],
-  // @ts-ignore
   doc: {
-    base: '/rc-charts',
-    propsParser: false,
+    base: '/rc-charts/',
+    title: 'Rc Charts',
+    description: 'react chart components',
     modifyBundlerConfig: (config) => {
       config['resolve'].alias = Object.assign({}, config['resolve'].alias, {
         '@charts': path.resolve(__dirname, 'src'),
@@ -38,10 +41,17 @@ const options: IBundleOptions = {
           : '/rc-charts/public/logo.svg',
         width: '60px',
       },
+      styles: {
+        container: {
+          fontSize: 16,
+        },
+      },
+      menu: [
+        'Overview',
+        'Components'
+      ]
     },
-    title: 'Rc Charts',
     repository: 'https://github.com/alitajs/rc-charts',
-    description: 'react chart components',
   }
 };
 

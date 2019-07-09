@@ -7,25 +7,32 @@ import {
   Geom,
   Coord,
   Label,
-  LabelProps
+  LabelProps,
+  LegendProps, Legend
 } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
 import { TPadding } from '@/global';
 import './pie-chart.less';
 
-const prefixCls = 'rc-pie-chart';
-
 export interface IDataItem {
   x: string;
   y: number;
+}
+
+interface ILegendDataItem {
+  x: string;
+  y: string;
+  checked: boolean;
+  color: string;
+  percent: number;
 }
 
 export interface IPieProps {
   className?: string;
   style?: React.CSSProperties;
   //
-  type: 'polar' | 'theta';
+  type?: 'polar' | 'theta';
   // 图表动画开关，默认为 true
   animate?: boolean;
   color?: string;
@@ -37,12 +44,22 @@ export interface IPieProps {
   padding?: TPadding;
   data: IDataItem[];
   total?: React.ReactNode | number | (() => React.ReactNode | number);
+  // 是否开启自动计算总数
+  autoTotal?: boolean;
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
+  // 图例配置
+  legend?: LegendProps;
   // 是否显示Label
   showLabel?: boolean;
   // 标注文本
   label?: LabelProps;
+  // 详细图例显示开关
+  hasLegend?: boolean;
+  valueFormat?: (value: string) => string | React.ReactNode;
+  titleMap?: {
+    [key: string]: any;
+  };
   // 是否显示tooltip
   tooltip?: boolean;
   // 设置半径，[0-1]的小数
@@ -68,7 +85,21 @@ const scale = {
   },
 };
 
+const defaultScale = {
+  x: {
+    type: 'cat',
+    range: [0, 1],
+  },
+  y: {
+    min: 0,
+  }
+};
+
 const PieChart: React.FC<IPieProps> = (props) => {
+  let chartInstance: G2.Chart = null;
+  let requestRef = null;
+  const prefixCls = 'rc-pie-chart';
+  const rootRef = React.useRef(null);
   const {
     className,
     style,
@@ -82,17 +113,103 @@ const PieChart: React.FC<IPieProps> = (props) => {
     colors,
     title,
     subTitle,
+    hasLegend,
+    valueFormat,
     label,
     showLabel,
     total,
+    autoTotal,
     radius,
+    legend,
     innerRadius,
     lineWidth,
     onGetG2Instance
   } = props;
   const [innerWidth, setInnerWidth] = React.useState<number>(0);
+  const [legendBlock, setLegendBlock] = React.useState<boolean>(false);
+  const [legendData, setLegendData] = React.useState<ILegendDataItem[]>([]);
+  const [totalNumber, setTotalNumber] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', () => {
+      requestRef = requestAnimationFrame(() => resize());
+    }, { passive: true })
+  }, []);
+
+  React.useEffect(() => {
+    let newTotal = 0;
+    if (autoTotal) {
+      data.forEach(item => {
+        if (item.y) {
+          newTotal += item.y;
+        }
+      })
+    } else {
+      newTotal = typeof total === 'function' ? total() : total
+    }
+    setTotalNumber(newTotal);
+  }, [props.total, props.autoTotal, props.data]);
+
+  React.useEffect(() => {
+    getLegendData();
+  }, [props.data]);
+
+  // 用于自定义图例
+  const getLegendData = () => {
+    if (!chartInstance) return;
+    const geom = chartInstance.getAllGeoms()[0];
+    if (!geom) return;
+    // @ts-ignore
+    const items = geom.get('dataArray') || [];
+
+    const data = items.map((item: { color: any; _origin: any }[]) => {
+      const origin = item[0]._origin;
+      origin.color = item[0].color;
+      origin.checked = true;
+      return origin;
+    });
+
+    setLegendData(data);
+  };
+
+  const handleLegendClick = (item: any, i: string | number) => {
+    const newItem = item;
+    newItem.checked = !newItem.checked;
+    const newLegendData = [...legendData];
+    newLegendData[i] = newItem;
+
+    const filteredLegendData = newLegendData.filter(l => l.checked).map(l => l.x);
+
+    if (chartInstance) {
+      chartInstance.filter('x', val => filteredLegendData.indexOf(val + '') > -1);
+    }
+
+    setLegendData(newLegendData);
+  };
+
+  const resize = () => {
+    const root: HTMLDivElement = rootRef.current;
+
+    if (!hasLegend || !root) {
+      window.removeEventListener('resize', resize);
+      return;
+    }
+
+    if (
+      root &&
+      root.parentNode &&
+      (root.parentNode as HTMLElement).clientWidth <= 380
+    ) {
+      if (!legendBlock) {
+        setLegendBlock(true);
+      }
+    } else {
+      setLegendBlock(false);
+    }
+  };
 
   const handleGetG2Instance = (chart: G2.Chart) => {
+    chartInstance = chart;
     setInnerWidth(chart.get('height') * innerRadius);
     onGetG2Instance && onGetG2Instance(chart);
   };
@@ -144,16 +261,21 @@ const PieChart: React.FC<IPieProps> = (props) => {
     as: 'percent',
   });
 
+  const cols = Object.assign({}, defaultScale, scale);
+
   return (
     <div
       className={classNames(className, {
-        [`${prefixCls}`]: true
+        [`${prefixCls}`]: true,
+        [`show-legend`]: !!hasLegend,
+        ['legend-block']: legendBlock
       })}
+      ref={rootRef}
       style={style}
     >
       <div className={`${prefixCls}__chart`}>
         <Chart
-          scale={type === 'theta' ? scale : undefined}
+          scale={type === 'theta' ? cols : undefined}
           height={height}
           forceFit={forceFit}
           data={dv}
@@ -169,6 +291,10 @@ const PieChart: React.FC<IPieProps> = (props) => {
             radius={radius}
             innerRadius={innerRadius}
           />
+
+          {/** 图例 */}
+          <Legend {...legend}/>
+
           <Geom
             style={{ lineWidth, stroke: '#fff' }}
             tooltip={tooltip ? tooltipFormat : undefined}
@@ -191,23 +317,52 @@ const PieChart: React.FC<IPieProps> = (props) => {
           <div
             className={`${prefixCls}__content`}
             style={{
+              marginTop: (legend && legend.visible)
+                ? -innerWidth * 0.1
+                : 0,
               width: innerWidth,
               height: +innerWidth,
-              padding: innerWidth * 0.2
+              padding: innerWidth * 0.1
             }}
           >
             <div>
               {title && (
                 <h4>{title}</h4>
               )}
-              {total && (
-                <p>{typeof total === 'function' ? total() : total}</p>
+              {(total || autoTotal) && (
+                <p>{totalNumber}</p>
               )}
               {subTitle && <h5>{subTitle}</h5>}
             </div>
           </div>
         </FitText>
       </div>
+
+      {hasLegend && (
+        <ul className={`${prefixCls}__legend`}>
+          {legendData.map((item, i) => (
+            <li key={item.x} onClick={() => handleLegendClick(item, i)}>
+              <div className="title">
+                <span
+                  className="dot"
+                  style={{
+                    backgroundColor: !item.checked ? '#aaa' : item.color,
+                  }}
+                />
+                <span>{item.x}</span>
+              </div>
+              <div className="value">
+                <span className="value">{valueFormat ? valueFormat(item.y) : item.y}</span>
+              </div>
+              <div className="percent">
+                <span className="percent">
+                  {`${(Number.isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 };
@@ -216,13 +371,18 @@ PieChart.defaultProps = {
   type: 'theta',
   animate: true,
   forceFit: true,
+  hasLegend: false,
   showLabel: false,
   height: 400,
   radius: 1,
   innerRadius: 0,
   lineWidth: 1,
+  legend: {
+    visible: false
+  },
   data: [],
-  padding: 'auto'
+  padding: 'auto',
+  autoTotal: false
 };
 
 export default PieChart;

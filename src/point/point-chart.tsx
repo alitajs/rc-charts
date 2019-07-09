@@ -4,6 +4,7 @@ import { G2, Chart, Tooltip, Geom, Coord, Axis, Legend, LegendProps, AxisProps, 
 import { DataView } from '@antv/data-set';
 import { isArray } from 'awe-utils';
 import { TPadding } from '../global';
+import Title, { TPosition } from '../components/title';
 
 const prefixCls = 'rc-line-chart';
 
@@ -19,7 +20,8 @@ export interface IPointChartProps {
   height?: number;
   colors?: string[];
   data: IDataItem[];
-  title?: string | React.ReactNode;
+  title?: string ;
+  titlePosition?: TPosition;
   legend?: LegendProps;
   xAxis?: AxisProps;
   // y轴相关配置
@@ -46,6 +48,7 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
     colors,
     data,
     title,
+    titlePosition,
     legend,
     xAxis,
     yAxis,
@@ -99,7 +102,10 @@ const PointChart: React.FC<IPointChartProps> = (props) => {
       })}
       style={style}
     >
-      {title && (<h4>{title}</h4>)}
+      <Title
+        position={titlePosition}
+        text={title}
+      />
       <Chart
         height={height}
         padding={padding}
