@@ -213,7 +213,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
                   'x*y2',
                   (x, y2) => {
                     return {
-                      name: tooltipMap.y2 ? tooltipMap.y2 : data[0].x,
+                      name: tooltipMap.y2 ? tooltipMap.y2 : x,
                       value: y2,
                     }
                   }
