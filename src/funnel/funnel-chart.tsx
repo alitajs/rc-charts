@@ -107,11 +107,6 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
     }
   }, [props.data]);
 
-  let tooltip1 = '';
-  let tooltip2 = '';
-
-  tooltip1 = tooltipMap.y1 ? tooltipMap.y1 : data[0].x;
-  tooltip2 = tooltipMap.y2 ? tooltipMap.y2 : data[0].x;
 
   return (
     <div
@@ -172,7 +167,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
               "x*y1*percent", 
               (x, y1, percent) => {
                 return {
-                  name: tooltip1,
+                  name: tooltipMap.y1 ? tooltipMap.y1 : x,
                   value: y1,
                   percent: (parseInt(percent) * 100).toFixed(0)  + "%",
                 }
@@ -218,7 +213,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
                   'x*y2',
                   (x, y2) => {
                     return {
-                      name: tooltip2,
+                      name: tooltipMap.y2 ? tooltipMap.y2 : data[0].x,
                       value: y2,
                     }
                   }
