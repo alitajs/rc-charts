@@ -32,7 +32,7 @@
   "dependencies": {
     "@antv/data-set": "^0.10.2",
     "antd": "^3.19.3",
-    "awe-utils": "^0.0.7",
+    "awe-utils": "^0.1.2",
     "bizcharts": "3.5.3",
     "chroma-js": "^2.0.4",
     "classnames": "^2.2.6",
