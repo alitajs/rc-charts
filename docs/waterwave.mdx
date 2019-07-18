@@ -13,17 +13,32 @@ import WaterWave from '@charts/waterwave';
 
 <Playground>
   <WaterWave
-    height={160} 
-    title="补贴资金剩余" 
+    height={300} 
+    subTitle="补贴资金剩余" 
     percent={34} 
-    color={'red'}
-    titleSize={`20px`}
-    titleColor={`green`}
+    color={'#1890FF'}
+    titleSize={`24px`}
+    titleColor={`rgb(132, 133, 135)`}
     titleHeight={`22px`}
-    percentColor={`blue`}
+    percentColor={`black`}
     percentSize={`24px`}
     percentHeight={`32px`}
   />
 </Playground>
+
+## API
+
+|参数|说明|类型|默认值|
+|--|--|--|--|
+|height|指定图表的高度，单位为 'px'|number|300|
+|subTitle|图表上面的文字|string|`''`|
+|percent|百分比|number|必填项|
+|color|图表的颜色|string|`#1890FF`|
+|titleSize|图表上文字的大小|string|`24px`|
+|titleColor|图表上文字的颜色|string|`rgb(132, 133, 135)`|
+|titleHeight|图表上文字的高度|string|`22px`|
+|percentColor|图表上百分比的颜色|string|`black`|
+|percentSize|图表上百分比的大小|string|`24px`|
+|percentHeight|图表上百分比的高度|string|`32px`|
 
 
