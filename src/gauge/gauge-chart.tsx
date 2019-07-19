@@ -9,8 +9,10 @@ import {
 } from 'bizcharts';
 import FitText from 'rc-fit-text';
 import { TPadding } from '../global';
+import { number } from 'prop-types';
+import Title, { TPosition } from '../components/title';
 
-const { Html, Arc } = Guide;
+const { Html, Arc, Line } = Guide;
 
 
 // 自定义Shape 部分
@@ -47,22 +49,9 @@ Shape.registerShape('point', 'pointer', {
   },
 });
 
-const color = [
-  '#0086FA',
-  '#FFBF00',
-  '#F5222D'
-];
-
-const cols = {
-  value: {
-    min: 0,
-    max: 6,
-    tickInterval: 1,
-    nice: false,
-  },
-};
-
 export interface IGaugeProps {
+  title?: string,
+  titlePosition?: TPosition;
   className?: string;
   style?: React.CSSProperties;
   height?: number;
@@ -70,24 +59,123 @@ export interface IGaugeProps {
   forceFit?: boolean;
   data?: {
     value: number;
-  }[]
-
+  }[];
+  valueSection: {
+    min: number;
+    max: number;
+  }[];
+  tickInterval: number;
+  lineColor: string,
+  ticks?: {
+    num: number;
+    text: string;
+  }[];
+  scaleLine?: {
+    num: number,
+    color: string,
+    lineWidth: number,
+  }[],
+  scaleArea?: [],
+  subTitle?: string,
+  scaleSize?: number,
+  labelFontSize?: number,
+  labelColor?: string,
 }
 
 const GaugeChart: React.FC<IGaugeProps> = (props) => {
-  const { height, padding, forceFit, data } = props;
-  const [lineWidth, setLineWidth] = React.useState<number>(25);
+  const { 
+    height, 
+    padding, 
+    forceFit, 
+    data,
+    valueSection,
+    tickInterval,
+    lineColor,
+    ticks,
+    scaleLine,
+    subTitle,
+    scaleSize,
+    titlePosition,
+    title,  
+    labelFontSize,
+    labelColor,
+   } = props;
+
+   let { scaleArea=[] } = props;
 
   const val = data[0].value;
 
+  let ticksNum = [];
+  ticks.map(item => {
+    ticksNum.push(item[`num`]);
+  });
+
+  const cols1 = {
+    value: {
+      min: valueSection[`min`],
+      max: valueSection[`max`],
+      tickInterval: tickInterval,
+      nice: false,
+    },
+  };
+  const cols2 = {
+    value: {
+      min: valueSection[`min`],
+      max: valueSection[`max`],
+      ticks: ticksNum,
+      nice: false,
+    },
+  };
+
+  const label1 = {
+    offset: -20,
+    formatter: (val) => {
+      let value = '';
+      ticks.map((item, index) => {
+        if(item[`num`].toString() === val) {
+          value = item[`text`];
+        }
+        return index;
+      })
+      return value;
+    },
+    textStyle: {
+      fontSize: labelFontSize,
+      fill: labelColor,
+      textAlign: 'center',
+    },
+  };
+
+  const label2 = {
+    offset: -20,
+    textStyle: {
+      fontSize: labelFontSize,
+      fill: labelColor,
+      textAlign: 'center',
+      textBaseline: 'middle',
+    },
+  };
+
+  if(scaleArea.length === 0) {
+    let obj = {};
+    obj[`min`] = valueSection[`min`];
+    obj[`max`] = valueSection[`max`];
+    obj[`color`] = `#19AFFA`;
+    scaleArea.push(obj);
+  }
+
   return (
     <div>
+      <Title
+        position={titlePosition}
+        text={title}
+      />
       <Chart
         height={height}
         data={data}
-        scale={cols}
+        scale={ticksNum.length ? cols2 : cols1}
         padding={padding}
-        forceFit={forceFit}
+        forceFit
       >
         {/** 极坐标系组件 */}
         <Coord
@@ -101,15 +189,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
           name="value"
           zIndex={2}
           line={null}
-          label={{
-            offset: -20,
-            textStyle: {
-              fontSize: 18,
-              fill: '#CBCBCB',
-              textAlign: 'center',
-              textBaseline: 'middle',
-            },
-          }}
+          label={ticksNum.length ? label1 : label2}
           tickLine={{
             length: -24,
             stroke: '#fff',
@@ -120,74 +200,72 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
         <Axis name="1" visible={false} />
 
         <Guide>
+          {
+            scaleLine.map(item => {
+              return (
+                <Line
+                  start={[item[`num`], 0.905]}
+                  end={[item[`num`], 0.85]}
+                  lineStyle={{
+                    stroke: item[`color`], // 线的颜色
+                    lineDash: null, // 虚线的设置
+                    lineWidth: item[`lineWidth`],
+                  }}
+                />
+              )
+            })
+          }
           <Arc
             zIndex={0}
-            start={[0, 0.965]}
-            end={[6, 0.965]}
+            start={[valueSection[`min`], 0.965]}
+            end={[valueSection[`max`], 0.965]}
             style={{ // 底灰色
               stroke: 'rgba(0, 0, 0, 0.09)',
-              lineWidth,
+              lineWidth: scaleSize,
             }}
           />
-          {val >= 2 && <Arc
-            zIndex={1}
-            start={[0, 0.965]}
-            end={[val, 0.965]}
-            style={{ // 底灰色
-              stroke: color[0],
-              lineWidth,
-            }}
-          />}
-          { val >= 4 &&
-          <Arc
-            zIndex={1}
-            start={[2, 0.965]}
-            end={[4, 0.965]}
-            style={{ // 底灰色
-              stroke: color[1],
-              lineWidth,
-            }}
-          />}
-          { val >= 4 && val < 6 &&
-          <Arc
-            zIndex={1}
-            start={[4, 0.965]}
-            end={[val, 0.965]}
-            style={{ // 底灰色
-              stroke: color[2],
-              lineWidth,
-            }}
-          />}
-          { val >= 2 && val < 4 &&
-          <Arc
-            zIndex={1}
-            start={[2, 0.965]}
-            end={[val, 0.965]}
-            style={{ // 底灰色
-              stroke: color[1],
-              lineWidth,
-            }}
-          />}
-          { val < 2 &&
-          <Arc
-            zIndex={1}
-            start={[0, 0.965]}
-            end={[val, 0.965]}
-            style={{ // 底灰色
-              stroke: color[0],
-              lineWidth,
-            }}
-          />}
+          {
+            scaleArea.map(item => {
+              if(data[0].value > item[`max`]) {
+                return (
+                  <Arc
+                    zIndex={1}
+                    start={[item[`min`], 0.965]}
+                    end={[item[`max`], 0.965]}
+                    style={{
+                      stroke: item[`color`],
+                      lineWidth: scaleSize,
+                    }}
+                  />
+                )
+              } else if(data[0].value > item[`min`] && data[0].value < item[`max`]) {
+                return (
+                  <Arc
+                    zIndex={1}
+                    start={[item[`min`], 0.965]}
+                    end={[data[0].value, 0.965]}
+                    style={{
+                      stroke: item[`color`],
+                      lineWidth: scaleSize,
+                    }}
+                  />
+                )
+              } else {
+                return '';
+              }
+              
+            })
+          }
           <Html
             position={['50%', '95%']}
-            html={() => (`<div style="width: 300px;text-align: center;font-size: 12px!important;"><p style="font-size: 1.75em; color: rgba(0,0,0,0.43);margin: 0;">合格率</p><p style="font-size: 3em;color: rgba(0,0,0,0.85);margin: 0;">${val * 10}%</p></div>`)}
+            html={() => (`${subTitle}`)}
           />
         </Guide>
         <Geom
           type="point"
           position="value*1"
           shape="pointer"
-          color="#1890FF"
+          color={lineColor}
           active={false}
           style={{ stroke: '#fff', lineWidth: 1 }}
         />
@@ -201,7 +279,16 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
 GaugeChart.defaultProps = {
   height: 400,
   padding: 'auto',
-  forceFit: true
+  forceFit: true,
+  tickInterval: 1,
+  lineColor: '#1890FF',
+  ticks: [],
+  scaleLine: [],
+  scaleArea: [],
+  subTitle: '<div></div>',
+  scaleSize: 18,
+  labelFontSize: 20,
+  labelColor: '#CBCBCB',
 };
 
 // CDN END
