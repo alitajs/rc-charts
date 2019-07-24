@@ -8,4 +8,4 @@ export { default as Line } from './line';
 export { default as Pie } from './pie';
 export { default as Point } from './point';
 export { default as Radar } from './radar';
-export { default as Waterwave  } from './waterwave';
+export { default as WaterWave  } from './water-wave';
