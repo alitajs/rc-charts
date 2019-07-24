@@ -2,16 +2,16 @@ import React from 'react';
 import { isArray } from 'awe-utils';
 import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
-import { 
-  G2, 
-  Chart, 
-  Tooltip, 
-  Geom, 
-  Coord, 
-  Axis, 
-  Legend, 
-  View, 
-  Guide, 
+import {
+  G2,
+  Chart,
+  Tooltip,
+  Geom,
+  Coord,
+  Axis,
+  Legend,
+  View,
+  Guide,
   Label,
   LegendProps,
   TooltipProps,
@@ -133,7 +133,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
           <Coord type='rect' transpose={props.transpose ? true : false} scale={unInvert ? [1, -1] : [-1, 1]} />
           <Legend {...legend} />
           {
-            guideText.show ? 
+            guideText.show ?
             <Guide>
               {chartData.map((item, index) => {
                 return (
@@ -164,7 +164,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
             shape={isSharp ? 'pyramid' : 'funnel'}
             color={['x', colors]}
             tooltip={[
-              "x*y1*percent", 
+              "x*y1*percent",
               (x, y1, percent) => {
                 return {
                   name: tooltipMap.y1 ? tooltipMap.y1 : x,
@@ -175,7 +175,7 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
             ]}
           >
             {
-              labelText.show ? 
+              labelText.show ?
               <Label
                 content={[
                   "x*y1",
@@ -185,14 +185,14 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
                     } else {
                       return x;
                     }
-                    
+
                   }
                 ]}
               /> : ''
             }
           </Geom>
           {
-            yFlag ? 
+            yFlag ?
             <View data={data}>
               <Geom
                 type="intervalSymmetric"
@@ -241,7 +241,7 @@ FunnelChart.defaultProps = {
     offsetX: 35,
     offsetY: 35,
   },
-}
+};
 
 export default FunnelChart;
 
