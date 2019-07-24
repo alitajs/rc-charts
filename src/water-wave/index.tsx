@@ -1,3 +1,3 @@
-import WaterWave from './waterwave-chart';
+import WaterWave from './water-wave';
 
 export default WaterWave;

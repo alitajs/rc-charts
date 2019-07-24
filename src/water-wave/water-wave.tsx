@@ -1,15 +1,43 @@
-import React, { PureComponent } from 'react';
-import autoHeight from '../autoHeight';
-import styles from './index.less';
+import React from 'react';
 
-/* eslint no-return-assign: 0 */
-/* eslint no-mixed-operators: 0 */
-// riddle: https://riddle.alibaba-inc.com/riddles/2d9a4b90
+export interface IWaterWaveChartProps {
+  className?: string;
+  height?: number;
+  subTitle: string;
+  percent: number;
+  color?: string;
+  titleSize?: string;
+  titleColor?: string;
+  titleHeight?: string;
+  percentColor?: string;
+  percentSize?: string;
+  percentHeight?: string;
+}
 
-class WaterWave extends PureComponent {
+
+class WaterWave extends React.Component<IWaterWaveChartProps>  {
+  static defaultProps: IWaterWaveChartProps = {
+    height: 400,
+    color: '#1890FF',
+    titleSize: '24px',
+    titleColor: 'rgb(132, 133, 135)',
+    titleHeight: '22px',
+    percentSize: '24px',
+    percentHeight: '32px',
+    percentColor: 'black',
+    subTitle: '',
+    percent: 0
+  };
+
   state = {
     radio: 1,
   };
+
+  timer: number = 0;
+
+  root: HTMLDivElement | undefined | null = null;
+
+  node: HTMLCanvasElement | undefined | null = null;
 
   componentDidMount() {
     this.renderChart();
@@ -19,11 +47,11 @@ class WaterWave extends PureComponent {
       () => {
         requestAnimationFrame(() => this.resize());
       },
-      { passive: true }
+      { passive: true },
     );
   }
 
-  componentDidUpdate(props) {
+  componentDidUpdate(props: IWaterWaveChartProps) {
     const { percent } = this.props;
     if (props.percent !== percent) {
       // 不加这个会造成绘制缓慢
@@ -41,15 +69,15 @@ class WaterWave extends PureComponent {
 
   resize = () => {
     if (this.root) {
-      const { height } = this.props;
-      const { offsetWidth } = this.root.parentNode;
+      const { height = 1 } = this.props;
+      const { offsetWidth } = this.root.parentNode as HTMLElement;
       this.setState({
         radio: offsetWidth < height ? offsetWidth / height : 1,
       });
     }
   };
 
-  renderChart(type) {
+  renderChart(type?: string) {
     const { percent, color = '#1890FF' } = this.props;
     const data = percent / 100;
     const self = this;
@@ -61,6 +89,9 @@ class WaterWave extends PureComponent {
 
     const canvas = this.node;
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return;
+    }
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
     const radius = canvasWidth / 2;
@@ -79,7 +110,7 @@ class WaterWave extends PureComponent {
     let currData = 0;
     const waveupsp = 0.005; // 水波上涨速度
 
-    let arcStack = [];
+    let arcStack: number[][] = [];
     const bR = radius - lineWidth;
     const circleOffset = -(Math.PI / 2);
     let circleLock = true;
@@ -88,11 +119,14 @@ class WaterWave extends PureComponent {
       arcStack.push([radius + bR * Math.cos(i), radius + bR * Math.sin(i)]);
     }
 
-    const cStartPoint = arcStack.shift();
+    const cStartPoint = arcStack.shift() as number[];
     ctx.strokeStyle = color;
     ctx.moveTo(cStartPoint[0], cStartPoint[1]);
 
     function drawSin() {
+      if (!ctx) {
+        return;
+      }
       ctx.beginPath();
       ctx.save();
 
@@ -107,7 +141,7 @@ class WaterWave extends PureComponent {
         sinStack.push([dx, dy]);
       }
 
-      const startPoint = sinStack.shift();
+      const startPoint = sinStack.shift() as number[];
 
       ctx.lineTo(xOffset + axisLength, canvasHeight);
       ctx.lineTo(xOffset, canvasHeight);
@@ -122,26 +156,29 @@ class WaterWave extends PureComponent {
     }
 
     function render() {
+      if (!ctx) {
+        return;
+      }
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       if (circleLock && type !== 'update') {
         if (arcStack.length) {
-          const temp = arcStack.shift();
+          const temp = arcStack.shift() as number[];
           ctx.lineTo(temp[0], temp[1]);
           ctx.stroke();
         } else {
           circleLock = false;
           ctx.lineTo(cStartPoint[0], cStartPoint[1]);
           ctx.stroke();
-          arcStack = null;
+          arcStack = [];
 
           ctx.globalCompositeOperation = 'destination-over';
           ctx.beginPath();
           ctx.lineWidth = lineWidth;
-          ctx.arc(radius, radius, bR, 0, 2 * Math.PI, 1);
+          ctx.arc(radius, radius, bR, 0, 2 * Math.PI, true);
 
           ctx.beginPath();
           ctx.save();
-          ctx.arc(radius, radius, radius - 3 * lineWidth, 0, 2 * Math.PI, 1);
+          ctx.arc(radius, radius, radius - 3 * lineWidth, 0, 2 * Math.PI, true);
 
           ctx.restore();
           ctx.clip();
@@ -184,29 +221,59 @@ class WaterWave extends PureComponent {
   }
 
   render() {
+
+    const {
+      height,
+      subTitle,
+      percent,
+      titleSize,
+      titleColor,
+      titleHeight,
+      percentColor,
+      percentSize,
+      percentHeight,
+    } = this.props;
+
     const { radio } = this.state;
-    const { percent, title, height } = this.props;
+
     return (
       <div
-        className={styles.waterWave}
         ref={n => (this.root = n)}
-        style={{ transform: `scale(${radio})` }}
+        style={{
+          display: `flex`,
+          transform: `scale(${radio})`,
+          position: `relative`,
+          transformOrigin: `left`,
+          width: `100%`,
+          justifyContent: 'center'
+        }}
       >
         <div style={{ width: height, height, overflow: 'hidden' }}>
           <canvas
-            className={styles.waterWaveCanvasWrapper}
+            style={{transform: `scale(0.5)`, transformOrigin: `0 0`}}
             ref={n => (this.node = n)}
-            width={height * 2}
-            height={height * 2}
+            width={ height*2  }
+            height={ height *2 }
           />
         </div>
-        <div className={styles.text} style={{ width: height }}>
-          {title && <span>{title}</span>}
-          <h4>{percent}%</h4>
+        <div
+          style={{
+            width: `100%`,
+            position: `absolute`,
+            top: `32px`,
+            left: 0,
+            textAlign: `center`,
+          }}
+        >
+          {subTitle && <span style={{fontSize: titleSize, color: titleColor, lineHeight: titleHeight}}>{subTitle}</span>}
+          <h4 style={{fontSize: percentSize, color: percentColor, lineHeight: percentHeight}}>{percent}%</h4>
         </div>
       </div>
-    );
+    )
   }
 }
 
 export default WaterWave;
+
+
+
