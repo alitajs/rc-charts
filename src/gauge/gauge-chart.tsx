@@ -127,34 +127,6 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
     },
   };
 
-  const label1 = {
-    offset: -20,
-    formatter: (val) => {
-      let value = '';
-      ticks.map((item, index) => {
-        if(item[`num`].toString() === val) {
-          value = item[`text`];
-        }
-        return index;
-      })
-      return value;
-    },
-    textStyle: {
-      fontSize: labelFontSize,
-      fill: labelColor,
-      textAlign: 'center',
-    },
-  };
-
-  const label2 = {
-    offset: -20,
-    textStyle: {
-      fontSize: labelFontSize,
-      fill: labelColor,
-      textAlign: 'center',
-      textBaseline: 'middle',
-    },
-  };
 
   if(scaleArea.length === 0) {
     let obj = {};
@@ -189,7 +161,33 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
           name="value"
           zIndex={2}
           line={null}
-          label={ticksNum.length ? label1 : label2}
+          label={ticksNum.length ? 
+            {
+              offset: -20,
+              formatter: (val) => {
+                let value = '';
+                ticks.map((item, index) => {
+                  if(item[`num`].toString() === val) {
+                    value = item[`text`];
+                  }
+                  return index;
+                })
+                return value;
+              },
+              textStyle: {
+                fontSize: labelFontSize,
+                fill: labelColor,
+                textAlign: 'center',
+              },
+            } : {
+            offset: -20,
+            textStyle: {
+              fontSize: labelFontSize,
+              fill: labelColor,
+              textAlign: 'center',
+              textBaseline: 'middle',
+            },
+          }}
           tickLine={{
             length: -24,
             stroke: '#fff',
@@ -216,7 +214,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
             })
           }
           <Arc
-            zIndex={0}
+            // zIndex={0}
             start={[valueSection[`min`], 0.965]}
             end={[valueSection[`max`], 0.965]}
             style={{ // 底灰色
@@ -229,7 +227,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
               if(data[0].value > item[`max`]) {
                 return (
                   <Arc
-                    zIndex={1}
+                    // zIndex={1}
                     start={[item[`min`], 0.965]}
                     end={[item[`max`], 0.965]}
                     style={{
@@ -241,7 +239,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
               } else if(data[0].value > item[`min`] && data[0].value < item[`max`]) {
                 return (
                   <Arc
-                    zIndex={1}
+                    // zIndex={1}
                     start={[item[`min`], 0.965]}
                     end={[data[0].value, 0.965]}
                     style={{
@@ -258,7 +256,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
           }
           <Html
             position={['50%', '95%']}
-            html={() => (`${subTitle}`)}
+            html={`${subTitle}`}
           />
         </Guide>
         <Geom
