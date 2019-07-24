@@ -188,12 +188,6 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
 
                   }
                 ]}
-                offsetX={labelText.offsetX}
-                offsetY={labelText.offsetY}
-                labeLine={{
-                  lineWidth: 1,
-                  stroke: "rgba(0, 0, 0, 0.15)",
-                }}
               /> : ''
             }
           </Geom>
