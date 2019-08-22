@@ -189,8 +189,6 @@ const BarChart: React.FC<IBarProps> = (props) => {
     return renderMeanLine();
   }, [props.meanLine, props.data, means]);
 
-  console.log(meanLineMemo);
-
   return (
     <div
       className={classNames(className, {
