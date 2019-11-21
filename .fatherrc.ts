@@ -17,7 +17,7 @@ const options: IBundleOptions = {
     ],
   ],
   doc: {
-    base: '/rc-charts/',
+    base: '/',
     title: 'Rc Charts',
     description: 'react chart components',
     modifyBundlerConfig: (config) => {
@@ -26,19 +26,11 @@ const options: IBundleOptions = {
       });
       return config;
     },
-    // @ts-ignore
-    htmlContext: {
-      favicon: env === 'development'
-        ? '/public/favicon.png'
-        : '/rc-charts/public/favicon.png'
-    },
     public: 'docs/public',
     indexHtml: 'docs/index.html',
     themeConfig: {
       logo: {
-        src: env === 'development'
-          ? '/public/logo.svg'
-          : '/rc-charts/public/logo.svg',
+        src:'/public/logo.svg',
         width: '60px',
       },
       styles: {
@@ -50,8 +42,7 @@ const options: IBundleOptions = {
         'Overview',
         'Components'
       ]
-    },
-    repository: 'https://github.com/alitajs/rc-charts',
+    }
   }
 };
 
