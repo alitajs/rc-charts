@@ -30,10 +30,9 @@
   },
   "dependencies": {
     "@antv/data-set": "^0.10.2",
+    "@pansy/utils": "^0.2.0",
     "antd": "^3.19.3",
-    "awe-utils": "^0.1.2",
     "bizcharts": "3.5.3",
-    "chroma-js": "^2.0.4",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
     "rc-fit-text": "^0.0.1"
@@ -44,7 +43,7 @@
     "@types/react": "^16.8.3",
     "babel-plugin-import": "^1.12.0",
     "cross-env": "^5.2.0",
-    "father": "^2.9.0",
+    "father": "^2.27.0",
     "gh-pages": "^2.0.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.6",

@@ -1,13 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { isArray } from 'awe-utils';
+import isArray from '@pansy/is-array';
 import { DataView } from '@antv/data-set';
 import { Chart, Tooltip, Geom, Legend, Axis, LegendProps } from 'bizcharts';
-import { TPadding } from '@/global';
+import { Padding } from '../types';
 
 const prefixCls = 'rc-line-chart';
 
-export interface IDataItem {
+export interface DataItem {
   x: any;
   [key: string]: number;
 }
@@ -15,10 +15,10 @@ export interface IDataItem {
 export interface ILineChartProps {
   className?: string;
   style?: React.CSSProperties;
-  padding?: TPadding;
+  padding?: Padding;
   height?: number;
   colors?: string[];
-  data: IDataItem[];
+  data: DataItem[];
   title?: string | React.ReactNode;
   titleMap?: {
     [key: string]: any;

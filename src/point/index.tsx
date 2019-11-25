@@ -1,4 +1,4 @@
 import PointChart from './point-chart';
 
-export { IDataItem } from './point-chart';
+export { DataItem } from './point-chart';
 export default PointChart;

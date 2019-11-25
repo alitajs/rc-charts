@@ -12,15 +12,15 @@ import {
 } from 'bizcharts';
 import { DataView } from '@antv/data-set';
 import FitText from 'rc-fit-text';
-import { TPadding } from '@/global';
+import { Padding } from '../types';
 import './pie-chart.less';
 
-export interface IDataItem {
+export interface DataItem {
   x: string;
   y: number;
 }
 
-interface ILegendDataItem {
+interface LegendDataItem {
   x: string;
   y: string;
   checked: boolean;
@@ -28,7 +28,7 @@ interface ILegendDataItem {
   percent: number;
 }
 
-export interface IPieProps {
+export interface PieProps {
   className?: string;
   style?: React.CSSProperties;
   //
@@ -41,8 +41,8 @@ export interface IPieProps {
   // 指定图表的高度，单位为 'px'
   height?: number;
   // 图表内边距
-  padding?: TPadding;
-  data: IDataItem[];
+  padding?: Padding;
+  data: DataItem[];
   total?: React.ReactNode | number | (() => React.ReactNode | number);
   // 是否开启自动计算总数
   autoTotal?: boolean;
@@ -95,7 +95,7 @@ const defaultScale = {
   }
 };
 
-const PieChart: React.FC<IPieProps> = (props) => {
+const PieChart: React.FC<PieProps> = (props) => {
   let chartInstance: G2.Chart = null;
   let requestRef = null;
   const prefixCls = 'rc-pie-chart';
@@ -127,7 +127,7 @@ const PieChart: React.FC<IPieProps> = (props) => {
   } = props;
   const [innerWidth, setInnerWidth] = React.useState<number>(0);
   const [legendBlock, setLegendBlock] = React.useState<boolean>(false);
-  const [legendData, setLegendData] = React.useState<ILegendDataItem[]>([]);
+  const [legendData, setLegendData] = React.useState<LegendDataItem[]>([]);
   const [totalNumber, setTotalNumber] = React.useState<number>(0);
 
   React.useEffect(() => {

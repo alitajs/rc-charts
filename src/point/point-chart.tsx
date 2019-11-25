@@ -1,27 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Chart, Tooltip, Geom, Axis, Legend, LegendProps, AxisProps, TooltipProps } from 'bizcharts';
-import { DataView } from '@antv/data-set';
-import { isArray } from 'awe-utils';
-import { TPadding } from '../global';
-import Title, { TPosition } from '../components/title';
+import isArray from '@pansy/is-array';
+import { Padding } from '../types';
+import Title, { Position } from '../components/title';
 
 const prefixCls = 'rc-line-chart';
 
-export interface IDataItem {
+export interface DataItem {
   x: any;
   [key: string]: number;
 }
 
-export interface IPointChartProps {
+export interface PointChartProps {
   className?: string;
   style?: React.CSSProperties;
-  padding?: TPadding;
+  padding?: Padding;
   height?: number;
   colors?: string[];
-  data: IDataItem[];
+  data: DataItem[];
   title?: string ;
-  titlePosition?: TPosition;
+  titlePosition?: Position;
   legend?: LegendProps;
   xAxis?: AxisProps;
   // y轴相关配置
@@ -39,7 +38,7 @@ export interface IPointChartProps {
   pointSize?: number;
 }
 
-const PointChart: React.FC<IPointChartProps> = (props) => {
+const PointChart: React.FC<PointChartProps> = (props) => {
   const {
     className,
     style,

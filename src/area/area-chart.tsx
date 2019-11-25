@@ -1,5 +1,5 @@
 import React from 'react';
-import { isArray } from 'awe-utils';
+import isArray from '@pansy/is-array';
 import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
 import {
@@ -12,8 +12,8 @@ import {
   Legend,
   LegendProps
 } from 'bizcharts';
-import { TPadding } from '@/global';
-import Title, { TPosition } from '../components/title';
+import { Padding } from '../types';
+import Title, { Position } from '../components/title';
 import './area-chart.less';
 
 export interface IDataItem {
@@ -21,14 +21,14 @@ export interface IDataItem {
   [key: string]: number | string;
 }
 
-export interface IAreaProps {
+export interface AreaProps {
   className?: string;
   title?: string;
-  titlePosition?: TPosition;
+  titlePosition?: Position;
   style?: React.CSSProperties;
   colors?: string[];
   height?: number;
-  padding?: TPadding;
+  padding?: Padding;
   // 是否显示线
   // 默认显示
   line?: boolean;
@@ -57,7 +57,7 @@ export interface IAreaProps {
 
 const prefixCls = 'rc-area-chart';
 
-const AreaChart: React.FC<IAreaProps> = (props) => {
+const AreaChart: React.FC<AreaProps> = (props) => {
   const {
     className,
     title,

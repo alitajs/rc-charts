@@ -8,9 +8,8 @@ import {
   Shape
 } from 'bizcharts';
 import FitText from 'rc-fit-text';
-import { TPadding } from '../global';
-import { number } from 'prop-types';
-import Title, { TPosition } from '../components/title';
+import { Padding } from '../types';
+import Title, { Position } from '../components/title';
 
 const { Html, Arc, Line } = Guide;
 
@@ -51,11 +50,11 @@ Shape.registerShape('point', 'pointer', {
 
 export interface IGaugeProps {
   title?: string,
-  titlePosition?: TPosition;
+  titlePosition?: Position;
   className?: string;
   style?: React.CSSProperties;
   height?: number;
-  padding?: TPadding;
+  padding?: Padding;
   forceFit?: boolean;
   data?: {
     value: number;
@@ -83,10 +82,10 @@ export interface IGaugeProps {
 }
 
 const GaugeChart: React.FC<IGaugeProps> = (props) => {
-  const { 
-    height, 
-    padding, 
-    forceFit, 
+  const {
+    height,
+    padding,
+    forceFit,
     data,
     valueSection,
     tickInterval,
@@ -96,12 +95,12 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
     subTitle,
     scaleSize,
     titlePosition,
-    title,  
+    title,
     labelFontSize,
     labelColor,
-   } = props;
+  } = props;
 
-   let { scaleArea=[] } = props;
+  let { scaleArea=[] } = props;
 
   const val = data[0].value;
 
@@ -161,7 +160,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
           name="value"
           zIndex={2}
           line={null}
-          label={ticksNum.length ? 
+          label={ticksNum.length ?
             {
               offset: -20,
               formatter: (val) => {
@@ -251,7 +250,7 @@ const GaugeChart: React.FC<IGaugeProps> = (props) => {
               } else {
                 return '';
               }
-              
+
             })
           }
           <Html

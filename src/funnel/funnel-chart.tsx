@@ -1,5 +1,5 @@
 import React from 'react';
-import { isArray } from 'awe-utils';
+import isArray from '@pansy/is-array';
 import classNames from 'classnames';
 import { DataView } from '@antv/data-set';
 import {
@@ -16,27 +16,26 @@ import {
   LegendProps,
   TooltipProps,
 } from 'bizcharts';
-
-import { TPadding } from '@/global';
-import Title, { TPosition } from '../components/title';
+import { Padding } from '../types';
+import Title, { Position } from '../components/title';
 
 const { Text } = Guide;
 
-export interface IDataItem {
+export interface DataItem {
   x: number | string;
   [key: string]: number | string;
 }
 
-export interface IFunnelProps {
+export interface FunnelProps {
   className?: string;
   style?: React.CSSProperties;
-  padding?: TPadding;
+  padding?: Padding;
   height?: number;
   colors?: string[];
   y2colors?: string[];
-  data: IDataItem[];
+  data: DataItem[];
   title?: string ;
-  titlePosition?: TPosition;
+  titlePosition?: Position;
   legend?: LegendProps;
   tooltip?: TooltipProps;
   transpose?: boolean;
@@ -53,9 +52,9 @@ export interface IFunnelProps {
   }
 }
 
-const prefixCls =  'rc-line-chart';
+const prefixCls = 'rc-line-chart';
 
-const FunnelChart: React.FC<IFunnelProps> = (props) => {
+const FunnelChart: React.FC<FunnelProps> = (props) => {
   const {
     className,
     style,
@@ -81,8 +80,6 @@ const FunnelChart: React.FC<IFunnelProps> = (props) => {
     title,
     titlePosition,
   } = props;
-
-  let y2Flag = false;
 
   const [yFlag, setYFlag] = React.useState(false);
 

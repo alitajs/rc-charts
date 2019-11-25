@@ -1,6 +1,6 @@
 import * as G2 from '@antv/g2/src';
 
-export type TPadding =
+export type Padding =
   | string
   | {
     top: number;
@@ -12,7 +12,7 @@ export type TPadding =
   | [number, number, number, number]
   | [string, string];
 
-export interface ILineProps {
+export interface LineProps {
   top?: boolean;
   start?: object | Array<any> | ((xScale?: any, yScale?: any) => any);
   end?: object | Array<any> | ((xScale?: any, yScale?: any) => any);

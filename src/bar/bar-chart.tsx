@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { isArray } from 'awe-utils';
+import isArray from '@pansy/is-array';
 import { DataView } from '@antv/data-set';
 import {
   Chart,
@@ -16,35 +16,35 @@ import {
   LegendProps,
   TooltipProps
 } from 'bizcharts';
-import Title, { TPosition } from '../components/title';
-import { TPadding, ILineProps } from '@/global';
+import Title, { Position } from '../components/title';
+import { Padding, LineProps } from '../types';
 import { sum } from '../utils/utils';
 
 const prefixCls = 'rc-bar-chart';
 
-export interface IDataItem {
+export interface DataItem {
   x: string | number;
   [key: string]: string | number;
 }
 
-export interface IBarProps {
+export interface BarProps {
   className?: string;
   style?: React.CSSProperties;
   // 图标内边距
-  padding?: TPadding;
+  padding?: Padding;
   height?: number;
-  data: IDataItem[];
+  data: DataItem[];
   // 层叠 或 分组柱状图 颜色
   colors?: string[];
   title?: string;
-  titlePosition?: TPosition;
+  titlePosition?: Position;
   titleMap?: {
     [key: string]: any;
   };
   scale?: any;
   tooltip?: TooltipProps;
   // 均值线配置
-  meanLine?: ILineProps;
+  meanLine?: LineProps;
   // 是否显示Label
   showLabel?: boolean;
   label?: LabelProps;
@@ -68,7 +68,7 @@ export interface IBarProps {
 
 const { Line } = Guide;
 
-const BarChart: React.FC<IBarProps> = (props) => {
+const BarChart: React.FC<BarProps> = (props) => {
   const {
     className,
     type,

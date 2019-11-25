@@ -9,7 +9,7 @@ import {
   Util,
   AxisProps
 } from 'bizcharts';
-import { TPadding } from '@/global';
+import { Padding } from '../types';
 import { getChartData } from './utils';
 
 export interface IData {
@@ -25,7 +25,7 @@ interface IProps {
   colors?: string;
   weekAxis?: AxisProps;
   dayAxis?: AxisProps;
-  padding?: TPadding;
+  padding?: Padding;
   borderWidth?: number;
   scale?: any;
   // 已周几为一周的开始

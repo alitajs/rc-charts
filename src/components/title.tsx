@@ -2,15 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 import './title.less';
 
-export type TPosition = 'left' | 'center' | 'right';
+export type Position = 'left' | 'center' | 'right';
 
-export interface ITitleProps {
+export interface TitleProps {
   className?: string;
   text?: string;
-  position?: TPosition;
+  position?: Position;
 }
 
-const Title: React.FC<ITitleProps> = (props) => {
+const Title: React.FC<TitleProps> = (props) => {
   const prefixCls: string = 'rc-chart-title';
   const { className, text, position } = props;
 

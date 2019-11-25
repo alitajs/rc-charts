@@ -12,12 +12,12 @@ import {
   TooltipProps
 } from 'bizcharts';
 import { DataView } from '@antv/data-set';
-import { isArray } from 'awe-utils';
-import { TPadding } from '@/global';
+import isArray from '@pansy/is-array';
+import { Padding } from '../types';
 
 const prefixCls = 'rc-line-chart';
 
-export interface IDataItem {
+export interface DataItem {
   x: any;
   [key: string]: number;
 }
@@ -25,10 +25,10 @@ export interface IDataItem {
 export interface IBoxChartProps {
   className?: string;
   style?: React.CSSProperties;
-  padding?: TPadding;
+  padding?: Padding;
   height?: number;
   colors?: string[];
-  data: IDataItem[];
+  data: DataItem[];
   title?: string | React.ReactNode;
   legend?: LegendProps;
   tooltip?: TooltipProps;

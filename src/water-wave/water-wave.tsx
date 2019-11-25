@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface IWaterWaveChartProps {
+export interface WaterWaveChartProps {
   className?: string;
   height?: number;
   subTitle: string;
@@ -14,9 +14,8 @@ export interface IWaterWaveChartProps {
   percentHeight?: string;
 }
 
-
-class WaterWave extends React.Component<IWaterWaveChartProps>  {
-  static defaultProps: IWaterWaveChartProps = {
+class WaterWave extends React.Component<WaterWaveChartProps>  {
+  static defaultProps: WaterWaveChartProps = {
     height: 400,
     color: '#1890FF',
     titleSize: '24px',
@@ -51,7 +50,7 @@ class WaterWave extends React.Component<IWaterWaveChartProps>  {
     );
   }
 
-  componentDidUpdate(props: IWaterWaveChartProps) {
+  componentDidUpdate(props: WaterWaveChartProps) {
     const { percent } = this.props;
     if (props.percent !== percent) {
       // 不加这个会造成绘制缓慢
