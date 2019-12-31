@@ -97,7 +97,6 @@ const defaultScale = {
 
 const PieChart: React.FC<PieProps> = (props) => {
   const chartRef = React.useRef<G2.Chart>(null);
-  let requestRef = null;
   const prefixCls = 'rc-pie-chart';
   const rootRef = React.useRef(null);
   const {
@@ -131,9 +130,14 @@ const PieChart: React.FC<PieProps> = (props) => {
   const [totalNumber, setTotalNumber] = React.useState<number>(0);
 
   React.useEffect(() => {
+    let requestRef = null;
     window.addEventListener('resize', () => {
       requestRef = requestAnimationFrame(() => resize());
-    }, { passive: true })
+    }, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(requestRef);
+      window.removeEventListener('resize', resize);
+    }
   }, []);
 
   React.useEffect(() => {
