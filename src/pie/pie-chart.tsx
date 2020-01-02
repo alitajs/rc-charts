@@ -96,8 +96,7 @@ const defaultScale = {
 };
 
 const PieChart: React.FC<PieProps> = (props) => {
-  let chartInstance: G2.Chart = null;
-  let requestRef = null;
+  const chartRef = React.useRef<G2.Chart>(null);
   const prefixCls = 'rc-pie-chart';
   const rootRef = React.useRef(null);
   const {
@@ -131,9 +130,14 @@ const PieChart: React.FC<PieProps> = (props) => {
   const [totalNumber, setTotalNumber] = React.useState<number>(0);
 
   React.useEffect(() => {
+    let requestRef = null;
     window.addEventListener('resize', () => {
       requestRef = requestAnimationFrame(() => resize());
-    }, { passive: true })
+    }, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(requestRef);
+      window.removeEventListener('resize', resize);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -156,8 +160,8 @@ const PieChart: React.FC<PieProps> = (props) => {
 
   // 用于自定义图例
   const getLegendData = () => {
-    if (!chartInstance) return;
-    const geom = chartInstance.getAllGeoms()[0];
+    if (!chartRef.current) return;
+    const geom = chartRef.current.getAllGeoms()[0];
     if (!geom) return;
     // @ts-ignore
     const items = geom.get('dataArray') || [];
@@ -180,8 +184,8 @@ const PieChart: React.FC<PieProps> = (props) => {
 
     const filteredLegendData = newLegendData.filter(l => l.checked).map(l => l.x);
 
-    if (chartInstance) {
-      chartInstance.filter('x', val => filteredLegendData.indexOf(val + '') > -1);
+    if (chartRef.current) {
+      chartRef.current.filter('x', val => filteredLegendData.indexOf(val + '') > -1);
     }
 
     setLegendData(newLegendData);
@@ -209,7 +213,7 @@ const PieChart: React.FC<PieProps> = (props) => {
   };
 
   const handleGetG2Instance = (chart: G2.Chart) => {
-    chartInstance = chart;
+    chartRef.current = chart;
     setInnerWidth(chart.get('height') * innerRadius);
     onGetG2Instance && onGetG2Instance(chart);
   };
