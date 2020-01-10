@@ -9,5 +9,10 @@
         "distDir": ".doc"
       }
     }
+  ],
+  "routes": [
+    { "src": "^/static/(.*)", "dest": "/static/$1" },
+    { "src": "^/public/(.*)", "dest": "/public/$1" },
+    { "src": "^/.*", "dest": "/index.html" }
   ]
 }
