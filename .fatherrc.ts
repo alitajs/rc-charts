@@ -1,25 +1,20 @@
-import { IBundleOptions } from 'father';
-import path from 'path';
+import { IBundleOptions } from 'father-build';
 
 const env = process.env.NODE_ENV;
 
 const options: IBundleOptions = {
-  esm: 'rollup',
-  cjs: 'rollup',
+  cjs: 'babel',
+  esm: { type: 'babel', importLibToEs: true },
   extraBabelPlugins: [
     [
       'babel-plugin-import',
       {
         libraryName: 'antd',
         libraryDirectory: 'es',
-        style: true,
+        style: true
       },
     ],
-  ],
-  doc: {
-    title: 'Rc Charts',
-    repository: 'https://github.com/alitajs/rc-charts'
-  }
+  ]
 };
 
 export default options;
