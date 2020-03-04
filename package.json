@@ -1,6 +1,6 @@
 {
   "name": "rc-charts",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "G2 图表",
   "main": "lib/index.js",
   "module": "es/index.js",
