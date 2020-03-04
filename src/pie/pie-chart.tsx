@@ -10,7 +10,7 @@ import {
   LabelProps,
   LegendProps, Legend
 } from 'bizcharts';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import FitText from 'rc-fit-text';
 import { Padding } from '../types';
 import './pie-chart.less';
@@ -94,6 +94,8 @@ const defaultScale = {
     min: 0,
   }
 };
+
+const { DataView } = DataSet;
 
 const PieChart: React.FC<PieProps> = (props) => {
   const chartRef = React.useRef<G2.Chart>(null);

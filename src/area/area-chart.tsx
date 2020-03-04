@@ -1,7 +1,7 @@
 import React from 'react';
 import isArray from '@pansy/is-array';
 import classNames from 'classnames';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import {
   Axis,
   Chart,
@@ -56,6 +56,7 @@ export interface AreaProps {
 }
 
 const prefixCls = 'rc-area-chart';
+const { DataView } = DataSet;
 
 const AreaChart: React.FC<AreaProps> = (props) => {
   const {

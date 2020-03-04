@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import isArray from '@pansy/is-array';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import { Chart, Tooltip, Geom, Legend, Axis, LegendProps } from 'bizcharts';
 import { Padding } from '../types';
 
@@ -31,6 +31,8 @@ export interface ILineChartProps {
   // 默认为false
   smooth: boolean;
 }
+
+const { DataView } = DataSet;
 
 const LineChart: React.FC<ILineChartProps> = (props) => {
   const {

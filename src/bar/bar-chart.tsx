@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import isArray from '@pansy/is-array';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import {
   Chart,
   Tooltip,
@@ -67,6 +67,7 @@ export interface BarProps {
 }
 
 const { Line } = Guide;
+const { DataView } = DataSet;
 
 const BarChart: React.FC<BarProps> = (props) => {
   const {

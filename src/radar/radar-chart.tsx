@@ -10,7 +10,7 @@ import {
   LegendProps,
   AxisProps
 } from 'bizcharts';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import isArray from '@pansy/is-array';
 import { Padding } from '../types';
 
@@ -44,6 +44,8 @@ export interface RadarChartProps {
   yAxis?: Partial<AxisProps>;
   areas?:boolean;
 }
+
+const { DataView } = DataSet;
 
 const RadarChart: React.FC<RadarChartProps> = (props) => {
   const {

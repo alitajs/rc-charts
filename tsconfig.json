@@ -12,10 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "experimentalDecorators": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules",

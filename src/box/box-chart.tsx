@@ -11,11 +11,12 @@ import {
   View,
   TooltipProps
 } from 'bizcharts';
-import { DataView } from '@antv/data-set';
+import  DataSet from '@antv/data-set';
 import isArray from '@pansy/is-array';
 import { Padding } from '../types';
 
 const prefixCls = 'rc-line-chart';
+const { DataView } = DataSet;
 
 export interface DataItem {
   x: any;
@@ -119,7 +120,7 @@ const BoxChart: React.FC<IBoxChartProps> = (props) => {
           as: 'bin',
           groupBy: ['x', 'key']
         });
-      setChartData(dv);
+      setChartData(dv as any);
     }
   }, [props.data]);
 

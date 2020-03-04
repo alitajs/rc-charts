@@ -1,14 +1,12 @@
 import React from 'react';
 import isArray from '@pansy/is-array';
 import classNames from 'classnames';
-import { DataView } from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import {
-  G2,
   Chart,
   Tooltip,
   Geom,
   Coord,
-  Axis,
   Legend,
   View,
   Guide,
@@ -20,6 +18,7 @@ import { Padding } from '../types';
 import Title, { Position } from '../components/title';
 
 const { Text } = Guide;
+const { DataView } = DataSet;
 
 export interface DataItem {
   x: number | string;
