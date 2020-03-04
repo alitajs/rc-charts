@@ -32,10 +32,10 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
-    "@antv/data-set": "^0.10.2",
+    "@antv/data-set": "^0.11.1",
     "@pansy/utils": "^0.3.6",
     "antd": "^3.26.7",
-    "bizcharts": "3.5.3",
+    "bizcharts": "^3.5.7",
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
     "rc-fit-text": "^0.0.1"
