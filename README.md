@@ -1,5 +1,7 @@
 # rc-charts
 
+该项目归档，推荐使用 [ant-design-charts](https://github.com/ant-design/ant-design-charts)
+
 > 封装[BizCharts](https://github.com/alibaba/BizCharts)库
 
 [![NPM version](https://img.shields.io/npm/v/rc-charts.svg?style=flat)](https://npmjs.org/package/rc-charts)
